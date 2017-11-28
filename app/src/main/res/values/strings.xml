@@ -24,4 +24,9 @@
     <string name="button_intro_sup">Sign Up</string>
     <string name="button_intro_sin">Sign In</string>
     <string name="sin_prompt">Sign in to your CereBro account</string>
+    <string name="title_activity_home_page">HomePageActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_drawer">DrawerActivity</string>
 </resources>
