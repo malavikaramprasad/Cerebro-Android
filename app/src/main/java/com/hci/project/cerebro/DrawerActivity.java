@@ -45,14 +45,14 @@ public class DrawerActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        Button bttnView = (Button) findViewById(R.id.submit_question);
-        bttnView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText topic = (EditText) findViewById(R.id.topic);
-                EditText description = (EditText) findViewById(R.id.description);
-            }
-        });
+//        Button bttnView = (Button) findViewById(R.id.submit_question);
+//        bttnView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                EditText topic = (EditText) findViewById(R.id.topic);
+//                EditText description = (EditText) findViewById(R.id.description);
+//            }
+//        });
     }
     NavigationView navigationView;
 

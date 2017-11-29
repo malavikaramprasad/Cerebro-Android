@@ -145,6 +145,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 String emailID = email.getText().toString();
                 EditText password = findViewById(R.id.password);
                 String pass = password.getText().toString();
+                EditText confirm_password = findViewById(R.id.password_confirm);
+                String confirm_pass = confirm_password.getText().toString();
 
 
 
@@ -162,7 +164,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             .build();
 
                     CreateUserAPI createUser_api = retrofit.create(CreateUserAPI.class);
-                    CreateUser createUser = new CreateUser(firstname,lastname,emailID,pass,pass);
+                    CreateUser createUser = new CreateUser(firstname,lastname,emailID,pass,confirm_pass);
                     createUser_api.addPost( createUser).enqueue(new Callback<UserToken>() {
                         @Override
                         public void onResponse(Call<UserToken> call, Response<UserToken> response) {
@@ -176,8 +178,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 editor.commit();
                                 //showResponse(response.body().toString());
 //                                Log.i("post submitted to API.", response.toString());
-//                                System.out.println("Response Bodyyyyy : :: : " + response.toString());
-//                                System.out.println("Response Bodyyyyy : :: : " + response.body());
+                                System.out.println("Response Bodyyyyy : :: : " + response.toString());
+                                System.out.println("Token : :: : " + response.body().getToken());
+                                System.out.println("Response  :::" + response.body().toString());
                                 Intent learnerIntent = new Intent(LoginActivity.this, DrawerActivity.class);
                                 startActivity(learnerIntent);
 
