@@ -105,10 +105,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
-                Intent newIntent = new Intent(LoginActivity.this, DrawerActivity.class);
+                //attemptLogin();
+                //Intent newIntent = new Intent(LoginActivity.this, DrawerActivity.class);
                 //final Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
-                startActivity(newIntent);
+               // startActivity(newIntent);
+                UserController controller = new UserController();
+                controller.start();
             }
 
         });
