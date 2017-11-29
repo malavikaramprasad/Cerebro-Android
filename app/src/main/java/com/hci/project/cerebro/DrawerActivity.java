@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LearnerFragment.LearnerListener {
@@ -53,6 +54,16 @@ public class DrawerActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         //navigationView.findViewById(R.id.fab).setVisibility(View.GONE);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        Button bttnView = (Button) findViewById(R.id.submit_question);
+        bttnView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText topic = (EditText) findViewById(R.id.topic);
+                EditText description = (EditText) findViewById(R.id.description);
+            }
+        });
     }
     NavigationView navigationView;
 

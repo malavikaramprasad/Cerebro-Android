@@ -7,6 +7,7 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,6 +36,19 @@ import java.util.Objects;
 
 import static android.Manifest.permission.READ_CONTACTS;
 import static com.hci.project.cerebro.R.string.action_sign_in_short;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.hci.project.cerebro.CreateUserAPI;
+
+import org.json.JSONObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Field;
 
 /**
  * A login screen that offers login via email/password.
@@ -71,10 +86,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         TextView register_prompt = findViewById(R.id.register_prompt);
         Button sin_sup_button = findViewById(R.id.email_sign_in_button);
 
-        EditText first_name = findViewById(R.id.first_name);
-        EditText last_name = findViewById(R.id.last_name);
+        final EditText first_name = findViewById(R.id.first_name);
+        final EditText last_name = findViewById(R.id.last_name);
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         String flag = intent.getStringExtra(IntroActivity.EXTRA_MESSAGE);
 
         if (Objects.equals(flag, "0")){
@@ -109,8 +124,64 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 //Intent newIntent = new Intent(LoginActivity.this, DrawerActivity.class);
                 //final Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
                // startActivity(newIntent);
-                UserController controller = new UserController();
-                controller.start();
+                //UserController controller = new UserController();
+                //controller.start();
+
+                EditText fn = findViewById(R.id.first_name);
+                String firstname = fn.getText().toString();
+                EditText ln = findViewById(R.id.last_name);
+                String lastname = fn.getText().toString();
+                EditText email = findViewById(R.id.email);
+                String emailID = email.getText().toString();
+                EditText password = findViewById(R.id.password);
+                String pass = password.getText().toString();
+
+
+
+                if(!TextUtils.isEmpty(firstname) && !TextUtils.isEmpty(lastname) &&
+                        !TextUtils.isEmpty(emailID) && !TextUtils.isEmpty(pass)) {
+                    //addPost(firstname,lastname,emailID,pass);
+                    Gson gson = new GsonBuilder()
+                            .registerTypeAdapter(CreateUser.class, new CustomGsonAdapter.UserAdapter())
+                            .setLenient()
+                            .create();
+                    final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create(gson))
+                            .build();
+
+                    CreateUserAPI createUser_api = retrofit.create(CreateUserAPI.class);
+                    CreateUser createUser = new CreateUser(firstname,lastname,emailID,pass,pass);
+                    createUser_api.addPost( createUser).enqueue(new Callback<UserToken>() {
+                        @Override
+                        public void onResponse(Call<UserToken> call, Response<UserToken> response) {
+
+                            if (response.isSuccessful()) {
+                                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                                SharedPreferences.Editor editor = pref.edit();
+                                //on the login store the login
+                                //editor.putLong(response.body().getToken(), response.body().getToken());
+                                editor.putString("user1", response.body().getToken());
+                                editor.commit();
+                                //showResponse(response.body().toString());
+//                                Log.i("post submitted to API.", response.toString());
+//                                System.out.println("Response Bodyyyyy : :: : " + response.toString());
+//                                System.out.println("Response Bodyyyyy : :: : " + response.body());
+                                Intent learnerIntent = new Intent(LoginActivity.this, DrawerActivity.class);
+                                startActivity(learnerIntent);
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UserToken> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                        //call.enqueue();
+                    });
+                }
+
             }
 
         });
