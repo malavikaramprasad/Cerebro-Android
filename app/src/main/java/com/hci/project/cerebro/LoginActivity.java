@@ -3,8 +3,10 @@ package com.hci.project.cerebro;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
@@ -29,6 +31,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,8 +78,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private EditText mPasswordConfView;
     private View mProgressView;
     private View mLoginFormView;
+
+    String flag;
+    String message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,17 +93,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         TextView register_prompt = findViewById(R.id.register_prompt);
         Button sin_sup_button = findViewById(R.id.email_sign_in_button);
 
-        final EditText first_name = findViewById(R.id.first_name);
-        final EditText last_name = findViewById(R.id.last_name);
+        EditText first_name = findViewById(R.id.first_name);
+        EditText last_name = findViewById(R.id.last_name);
+        EditText pass_conf = findViewById(R.id.password_confirm);
 
-        final Intent intent = getIntent();
-        String flag = intent.getStringExtra(IntroActivity.EXTRA_MESSAGE);
+        Intent intent = getIntent();
+        flag = intent.getStringExtra(IntroActivity.EXTRA_MESSAGE);
 
         if (Objects.equals(flag, "0")){
             register_prompt.setText(R.string.sin_prompt);
             first_name.setVisibility(View.GONE);
             last_name.setVisibility(View.GONE);
             sin_sup_button.setText(action_sign_in_short);
+            pass_conf.setVisibility(View.GONE);
 
         }
 
@@ -105,6 +114,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
+        mPasswordConfView = (EditText) findViewById(R.id.password_confirm);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -116,7 +126,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = sin_sup_button;
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,12 +192,51 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     });
                 }
 
+                if(!Objects.equals(mPasswordView.getText().toString(), mPasswordConfView.getText().toString()) && Objects.equals(flag, "1")){
+
+                    //passwords do not match. Show toast
+                    Toast toast = Toast.makeText(getApplicationContext(),"Passwords do not match!",Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                else {
+                UserController controller = new UserController();
+                controller.start();
+                }
             }
 
         });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+
+        if(Objects.equals(flag, "0")){
+            message = "Are you sure you want to abort Sign In?";
+        }
+        else if(Objects.equals(flag, "1")){
+            message = "Are you sure you want to abort Sign Up?";
+        }
+        builder.setMessage(message)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //go back
+                        LoginActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //do nothing
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void populateAutoComplete() {
