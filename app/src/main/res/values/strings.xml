@@ -7,12 +7,14 @@
     <string name="last_name">Last Name</string>
     <string name="prompt_email">UIC Email</string>
     <string name="prompt_password">Password</string>
+    <string name="prompt_password_confirm">Password</string>
     <string name="action_sign_in">Register with CereBro</string>
     <string name="action_sign_in_short">Sign In</string>
     <string name="action_sign_up_short">Sign Up</string>
     <string name="error_invalid_email">This email address is an invalid UIC email</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_match_password">This password is not matching. Please enter again.</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
@@ -24,4 +26,12 @@
     <string name="button_intro_sup">Sign Up</string>
     <string name="button_intro_sin">Sign In</string>
     <string name="sin_prompt">Sign in to your CereBro account</string>
+    <string name="title_activity_home_page">HomePageActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_drawer">DrawerActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
