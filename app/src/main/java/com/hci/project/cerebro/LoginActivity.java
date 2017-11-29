@@ -3,8 +3,10 @@ package com.hci.project.cerebro;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
@@ -66,6 +68,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
 
     String flag;
+    String message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +119,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 //Intent newIntent = new Intent(LoginActivity.this, DrawerActivity.class);
                 //final Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
                // startActivity(newIntent);
-                if(!Objects.equals(mPasswordView.getText().toString(), mPasswordConfView.getText().toString())){
+                if(!Objects.equals(mPasswordView.getText().toString(), mPasswordConfView.getText().toString()) && Objects.equals(flag, "1")){
 
                     //passwords do not match. Show toast
                     Toast toast = Toast.makeText(getApplicationContext(),"Passwords do not match!",Toast.LENGTH_LONG);
@@ -132,6 +135,35 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+
+        if(Objects.equals(flag, "0")){
+            message = "Are you sure you want to abort Sign In?";
+        }
+        else if(Objects.equals(flag, "1")){
+            message = "Are you sure you want to abort Sign Up?";
+        }
+        builder.setMessage(message)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //go back
+                        LoginActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //do nothing
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void populateAutoComplete() {
