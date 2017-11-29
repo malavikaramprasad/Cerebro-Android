@@ -27,6 +27,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,8 +61,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private EditText mPasswordConfView;
     private View mProgressView;
     private View mLoginFormView;
+
+    String flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,15 +77,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         EditText first_name = findViewById(R.id.first_name);
         EditText last_name = findViewById(R.id.last_name);
+        EditText pass_conf = findViewById(R.id.password_confirm);
 
         Intent intent = getIntent();
-        String flag = intent.getStringExtra(IntroActivity.EXTRA_MESSAGE);
+        flag = intent.getStringExtra(IntroActivity.EXTRA_MESSAGE);
 
         if (Objects.equals(flag, "0")){
             register_prompt.setText(R.string.sin_prompt);
             first_name.setVisibility(View.GONE);
             last_name.setVisibility(View.GONE);
             sin_sup_button.setText(action_sign_in_short);
+            pass_conf.setVisibility(View.GONE);
 
         }
 
@@ -90,6 +96,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
+        mPasswordConfView = (EditText) findViewById(R.id.password_confirm);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -101,7 +108,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = sin_sup_button;
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,8 +116,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 //Intent newIntent = new Intent(LoginActivity.this, DrawerActivity.class);
                 //final Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
                // startActivity(newIntent);
+                if(!Objects.equals(mPasswordView.getText().toString(), mPasswordConfView.getText().toString())){
+
+                    //passwords do not match. Show toast
+                    Toast toast = Toast.makeText(getApplicationContext(),"Passwords do not match!",Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                else {
                 UserController controller = new UserController();
                 controller.start();
+                }
             }
 
         });
