@@ -130,70 +130,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                //attemptLogin();
+                attemptLogin();
                 //Intent newIntent = new Intent(LoginActivity.this, DrawerActivity.class);
                 //final Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
                // startActivity(newIntent);
                 //UserController controller = new UserController();
                 //controller.start();
 
-                EditText fn = findViewById(R.id.first_name);
-                String firstname = fn.getText().toString();
-                EditText ln = findViewById(R.id.last_name);
-                String lastname = fn.getText().toString();
-                EditText email = findViewById(R.id.email);
-                String emailID = email.getText().toString();
-                EditText password = findViewById(R.id.password);
-                String pass = password.getText().toString();
-                EditText confirm_password = findViewById(R.id.password_confirm);
-                String confirm_pass = confirm_password.getText().toString();
-
-
-
-                if(!TextUtils.isEmpty(firstname) && !TextUtils.isEmpty(lastname) &&
-                        !TextUtils.isEmpty(emailID) && !TextUtils.isEmpty(pass)) {
-                    //addPost(firstname,lastname,emailID,pass);
-                    Gson gson = new GsonBuilder()
-                            .registerTypeAdapter(CreateUser.class, new CustomGsonAdapter.UserAdapter())
-                            .setLenient()
-                            .create();
-                    final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
-                    Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl(BASE_URL)
-                            .addConverterFactory(GsonConverterFactory.create(gson))
-                            .build();
-
-                    CreateUserAPI createUser_api = retrofit.create(CreateUserAPI.class);
-                    CreateUser createUser = new CreateUser(firstname,lastname,emailID,pass,confirm_pass);
-                    createUser_api.addPost( createUser).enqueue(new Callback<UserToken>() {
-                        @Override
-                        public void onResponse(Call<UserToken> call, Response<UserToken> response) {
-
-                            if (response.isSuccessful()) {
-                                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-                                SharedPreferences.Editor editor = pref.edit();
-                                //on the login store the login
-                                //editor.putLong(response.body().getToken(), response.body().getToken());
-                                editor.putString("user1", response.body().getToken());
-                                editor.commit();
-                                //showResponse(response.body().toString());
-//                                Log.i("post submitted to API.", response.toString());
-                                System.out.println("Response Bodyyyyy : :: : " + response.toString());
-                                System.out.println("Token : :: : " + response.body().getToken());
-                                System.out.println("Response  :::" + response.body().toString());
-                                Intent learnerIntent = new Intent(LoginActivity.this, DrawerActivity.class);
-                                startActivity(learnerIntent);
-
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<UserToken> call, Throwable t) {
-                            t.printStackTrace();
-                        }
-                        //call.enqueue();
-                    });
-                }
+                //onCheck();
 
                 if(!Objects.equals(mPasswordView.getText().toString(), mPasswordConfView.getText().toString()) && Objects.equals(flag, "1")){
 
@@ -211,6 +155,66 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    public void registerUser()
+    {
+        EditText fn = findViewById(R.id.first_name);
+        String firstname = fn.getText().toString();
+        EditText ln = findViewById(R.id.last_name);
+        String lastname = fn.getText().toString();
+        EditText email = findViewById(R.id.email);
+        String emailID = email.getText().toString();
+        EditText password = findViewById(R.id.password);
+        String pass = password.getText().toString();
+        EditText confirm_password = findViewById(R.id.password_confirm);
+        String confirm_pass = confirm_password.getText().toString();
+
+
+
+        if(!TextUtils.isEmpty(firstname) && !TextUtils.isEmpty(lastname) &&
+                !TextUtils.isEmpty(emailID) && !TextUtils.isEmpty(pass)) {
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(CreateUser.class, new CustomGsonAdapter.UserAdapter())
+                    .setLenient()
+                    .create();
+            final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .build();
+
+            CreateUserAPI createUser_api = retrofit.create(CreateUserAPI.class);
+            CreateUser createUser = new CreateUser(firstname,lastname,emailID,pass,confirm_pass);
+            createUser_api.addPost( createUser).enqueue(new Callback<UserToken>() {
+                @Override
+                public void onResponse(Call<UserToken> call, Response<UserToken> response) {
+
+                    if (response.isSuccessful()) {
+                        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                        SharedPreferences.Editor editor = pref.edit();
+                        //on the login store the login
+                        //editor.putLong(response.body().getToken(), response.body().getToken());
+                        editor.putString("user1", response.body().getToken());
+                        editor.commit();
+                        //showResponse(response.body().toString());
+//                                Log.i("post submitted to API.", response.toString());
+                        System.out.println("Response Bodyyyyy : :: : " + response.toString());
+                        System.out.println("Token : :: : " + response.body().token);
+                        System.out.println("Response  :::" + response.body().toString());
+                        if(response.body().token != null) {
+                            Intent learnerIntent = new Intent(LoginActivity.this, DrawerActivity.class);
+                            startActivity(learnerIntent);
+                        }
+
+                    }
+                }
+                @Override
+                public void onFailure(Call<UserToken> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        }
     }
 
     @Override
@@ -332,6 +336,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
             //if login details correct, send user to dashboard
+            //onCheck();
         }
     }
 
@@ -462,6 +467,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
             // TODO: register the new account here.
+            registerUser();
             return true;
         }
 
