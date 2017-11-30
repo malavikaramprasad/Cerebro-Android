@@ -10,27 +10,27 @@ import com.google.gson.annotations.SerializedName;
 public class SubmitQuestion {
     @SerializedName("tag_id")
     @Expose
-    String tag_id;
+    int tag_id;
     @SerializedName("learner_id")
     @Expose
-    String learner_id;
+    int learner_id;
     @SerializedName("description")
     @Expose
     String description;
 
-    public String getTag_id() {
+    public int getTag_id() {
         return tag_id;
     }
 
-    public void setTag_id(String tag_id) {
+    public void setTag_id(int tag_id) {
         this.tag_id = tag_id;
     }
 
-    public String getLearner_id() {
+    public int getLearner_id() {
         return learner_id;
     }
 
-    public void setLearner_id(String learner_id) {
+    public void setLearner_id(int learner_id) {
         this.learner_id = learner_id;
     }
 
@@ -42,7 +42,7 @@ public class SubmitQuestion {
         this.description = description;
     }
 
-    public SubmitQuestion(String tag_id, String description, String learner_id) {
+    public SubmitQuestion(int tag_id, String description, int learner_id) {
         this.learner_id = learner_id;
         this.tag_id = tag_id;
         this.description = description;

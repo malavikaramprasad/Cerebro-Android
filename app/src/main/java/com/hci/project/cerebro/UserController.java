@@ -40,7 +40,7 @@ public class UserController implements Callback<User> {
         if(response.isSuccessful()) {
             User user = response.body();
             System.out.println("The name is : " + user.first_name + " " + user.last_name);
-            Log.i("User Details", user.first_name);
+            Log.i("User Details", user.toString());
         } else {
             try {
                 System.out.println(response.errorBody().string());

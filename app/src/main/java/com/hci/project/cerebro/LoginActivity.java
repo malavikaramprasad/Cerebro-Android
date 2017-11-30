@@ -33,9 +33,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import static android.Manifest.permission.READ_CONTACTS;
 import static com.hci.project.cerebro.R.string.action_sign_in_short;
@@ -81,9 +83,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordConfView;
     private View mProgressView;
     private View mLoginFormView;
+    public final String[] skillNames = new String[10];
+    public final int[] skillIds = new int[10];
 
     String flag;
     String message;
+
+    public String[] returnSkill(){
+        return skillNames;
+    }
+    public int[] returnSkillId(){
+        return skillIds;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +117,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             last_name.setVisibility(View.GONE);
             sin_sup_button.setText(action_sign_in_short);
             pass_conf.setVisibility(View.GONE);
+            Intent intent1 = new Intent(getApplicationContext(), DrawerActivity.class);
+            startActivity(intent1);
 
         }
 
@@ -133,9 +146,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 attemptLogin();
                 //Intent newIntent = new Intent(LoginActivity.this, DrawerActivity.class);
                 //final Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
-               // startActivity(newIntent);
+                //startActivity(newIntent);
                 //UserController controller = new UserController();
                 //controller.start();
+                //Fetch User details
+                //fetchUserDetails();
 
                 //onCheck();
 
@@ -155,6 +170,35 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    public void fetchUserDetails()
+    {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        CerebroAPI cerebro_api = retrofit.create(CerebroAPI.class);
+
+        cerebro_api.loadChanges().enqueue(new Callback<User>()
+        {
+            @Override
+            public void onResponse(Call<User> call, Response <User> response)
+            {
+
+            }
+
+            public  void  onFailure(Call<User> call, Throwable t)
+            {
+                t.printStackTrace();
+            }
+
+         });
     }
 
     public void registerUser()
@@ -200,6 +244,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         //System.out.println("Token : :: : " + response.body().token);
                         //System.out.println("Response  :::" + response.body().toString());
                         if(response.body().token != null) {
+                            //getSkills();
+                            //getDeviceID();
                             Intent learnerIntent = new Intent(LoginActivity.this, DrawerActivity.class);
                             startActivity(learnerIntent);
                         }
@@ -212,7 +258,48 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             });
         }
     }
+    public void getSkills()
+    {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
 
+        SkillAPI skill_api = retrofit.create(SkillAPI.class);
+
+        skill_api.getSkills().enqueue(new Callback<List<Skill>>()
+        {
+            @Override
+            public void onResponse(Call<List<Skill>> call, Response<List<Skill>> response)
+            {
+                System.out.println("Response SKILLS :::" + response.body());
+                List<Skill> arrayList = response.body();
+
+                int count = arrayList.size();
+                int i = 0;
+                while(i < count) {
+                    skillNames[i] = arrayList.get(i).getName();
+                    skillIds[i] = arrayList.get(i).getId();
+                    i++;
+                }
+                System.out.println("Name Array ::" + skillNames);
+                System.out.println("ID Array ::" + skillIds);
+//                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+//                        android.R.layout.simple_dropdown_item_1line, skillNames);
+//                AutoCompleteTextView textView = (AutoCompleteTextView)
+//                        findViewById(R.id.topic);
+//                textView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Skill>> call, Throwable t)
+            { t.printStackTrace();}
+        });
+    }
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
