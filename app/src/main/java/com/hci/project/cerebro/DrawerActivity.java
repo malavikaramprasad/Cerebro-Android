@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,8 +45,7 @@ public class DrawerActivity extends AppCompatActivity
         //navigationView.findViewById(R.id.fab).setVisibility(View.GONE);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-//        Button bttnView = (Button) findViewById(R.id.submit_question);
+        //        Button bttnView = (Button) findViewById(R.id.submit_question);
 //        bttnView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {

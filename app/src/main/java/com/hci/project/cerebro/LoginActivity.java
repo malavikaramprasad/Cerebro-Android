@@ -186,7 +186,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             CreateUserAPI createUser_api = retrofit.create(CreateUserAPI.class);
             CreateUser createUser = new CreateUser(firstname,lastname,emailID,pass,confirm_pass);
-            createUser_api.addPost( createUser).enqueue(new Callback<UserToken>() {
+            createUser_api.addPost(createUser).enqueue(new Callback<UserToken>() {
                 @Override
                 public void onResponse(Call<UserToken> call, Response<UserToken> response) {
 
@@ -194,19 +194,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
                         SharedPreferences.Editor editor = pref.edit();
                         //on the login store the login
-                        //editor.putLong(response.body().getToken(), response.body().getToken());
-                        editor.putString("user1", response.body().getToken());
+                        editor.putString("Current_User", response.body().token);
                         editor.commit();
-                        //showResponse(response.body().toString());
-//                                Log.i("post submitted to API.", response.toString());
-                        System.out.println("Response Bodyyyyy : :: : " + response.toString());
-                        System.out.println("Token : :: : " + response.body().token);
-                        System.out.println("Response  :::" + response.body().toString());
+                        //System.out.println("Response Bodyyyyy : :: : " + response.toString());
+                        //System.out.println("Token : :: : " + response.body().token);
+                        //System.out.println("Response  :::" + response.body().toString());
                         if(response.body().token != null) {
                             Intent learnerIntent = new Intent(LoginActivity.this, DrawerActivity.class);
                             startActivity(learnerIntent);
                         }
-
                     }
                 }
                 @Override
@@ -477,11 +473,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                finish();
+                showProgress(true);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
+
         }
 
         @Override
