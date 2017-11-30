@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListView
+        android:layout_width="370dp"
+        android:layout_height="178dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="105dp" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Skills"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="71dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Request"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="404dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Slot1"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="312dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Slot2"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="312dp" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Slot3"
+        tools:layout_editor_absoluteX="280dp"
+        tools:layout_editor_absoluteY="313dp" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="130dp"
+        android:layout_height="45dp"
+        android:text="NameOfTutor"
+        tools:layout_editor_absoluteX="113dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+</android.support.constraint.ConstraintLayout>

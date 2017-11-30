@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -72,9 +73,19 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                 //EditText d = rv.findViewById(R.id.description);
                 int learner_id = 2;
                 registerQuestion(tag, description,learner_id);
+
+               // registerQuestion(tag, description);
+                listTutors();
             }
         });
         return rootView;
+    }
+    public void listTutors(){
+
+        ListView lv= (ListView) getActivity().findViewById(R.id.listview);
+        ArrayAdapter adapter= new ArrayAdapter<String>(getContext(), R.layout.list_item, getResources().getStringArray(R.array.Tutors));
+        lv.setAdapter(adapter);
+
     }
 
     public void getSkills()
@@ -164,7 +175,6 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                         List<User> changesList = response.body();
                         System.out.println("Response Bodyyyyy : :: : " + changesList);
                         System.out.println("Token : :: : " + response.body());
-                        System.out.println("Response  :::" + changesList.toString());
                     }
                 }
                 @Override

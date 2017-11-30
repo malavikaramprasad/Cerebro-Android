@@ -35,4 +35,20 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_tutor_profile">TutorProfileActivity</string>
+
+
+    <string-array name="Tutors">
+        <item>Tutor1</item>
+        <item>Tutor2</item>
+        <item>Tutor3</item>
+        <item>Tutor4</item>
+        <item>Tutor5</item>
+        <item>Tutor6</item>
+        <item>Tutor7</item>
+        <item>Tutor8</item>
+        <item>Tutor9</item>
+        <item>Tutor10</item>
+
+    </string-array>
+
 </resources>
