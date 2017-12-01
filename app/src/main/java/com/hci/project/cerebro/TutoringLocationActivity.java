@@ -101,7 +101,6 @@ public class TutoringLocationActivity extends FragmentActivity implements OnMapR
                         }
                     }
                 });
-        //show address at pointer location as TOAST
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
