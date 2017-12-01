@@ -112,20 +112,20 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
         skill_api.getSkills().enqueue(new Callback<List<Skill>>()
         {
             @Override
-            public void onResponse(Call<List<Skill>> call, Response<List<Skill>> response)
-            {
-                System.out.println("Response SKILLS :::" + response.body());
-                List<Skill> arrayList = response.body();
+            public void onResponse(Call<List<Skill>> call, Response<List<Skill>> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("Response SKILLS :::" + response.body());
+                    List<Skill> arrayList = response.body();
 
-                int count = arrayList.size();
-                int i = 0;
-                while(i < count) {
-                    skillNames[i] = arrayList.get(i).getName();
-                    skillID[i] = arrayList.get(i).getId();
-                    i++;
-                }
-                System.out.println("Name Array ::" + skillNames);
-                System.out.println("ID Array ::" + skillID);
+                    int count = arrayList.size();
+                    int i = 0;
+                    while (i < count) {
+                        skillNames[i] = arrayList.get(i).getName();
+                        skillID[i] = arrayList.get(i).getId();
+                        i++;
+                    }
+                    System.out.println("Name Array ::" + skillNames);
+                    System.out.println("ID Array ::" + skillID);
 //                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
 //                        android.R.layout.select_dialog_item, skillNames );
 //                ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(),
@@ -139,8 +139,8 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
 //                AutoCompleteTextView textView = (AutoCompleteTextView)
 //                        findViewById(R.id.topic);
 //                textView.setAdapter(adapter);
+                }
             }
-
             @Override
             public void onFailure(Call<List<Skill>> call, Throwable t){
                 t.printStackTrace();}

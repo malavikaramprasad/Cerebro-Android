@@ -1,5 +1,6 @@
 package com.hci.project.cerebro;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,9 +12,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LearnerFragment.LearnerListener {
@@ -38,9 +43,21 @@ public class DrawerActivity extends AppCompatActivity
         fragmentTransaction.commit();
         hideLearnerItem();
         // End
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        //navigationView.findViewById(R.id.fab).setVisibility(View.GONE);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //Set user name and email in hamburger menu
+        SharedPreferences settings = getApplicationContext().getSharedPreferences("MyPref",0);
+        String fname = settings.getString("Current_User_fName", "defaultvalue");
+        String lname = settings.getString("Current_User_lName", "defaultvalue");
+        String email = settings.getString("Current_User_email", "defaultvalue");
+        String username = fname + " " + lname;
+        TextView txtProfileName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tab_username);
+        TextView txtProfileEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tab_email);
+        txtProfileName.setText(username);
+        txtProfileEmail.setText(email);
+        //End
 
     }
     NavigationView navigationView;
