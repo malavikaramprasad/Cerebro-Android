@@ -55,8 +55,9 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
     View rootView;
     public final String[] skillNames = new String[10];
     public final int[] skillID = new int[10];
-    String token, fname, lname ;
+    String token, fname, lname, start_time, end_time ;
     int userId;
+    float rating, x_coordinate, y_coordinate;
 
 
     @Override
@@ -71,6 +72,12 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
         fname = settings.getString("Current_User_fName", "defaultvalue");
         lname = settings.getString("Current_User_lName", "defaultvalue");
         userId = settings.getInt("Current_User_Id", 0);
+        rating = settings.getFloat("Current_User_rating", 0);
+        x_coordinate = settings.getFloat("Current_User_x_coordinate", 0);
+        y_coordinate = settings.getFloat("Current_User_y_coordinate", 0);
+        start_time = settings.getString("Current_User_starttime","defaultValue");
+        end_time = settings.getString("Current_User_endtime","defaultvalue");
+
         btn.setOnClickListener(new View.OnClickListener(){
 
             @Override
