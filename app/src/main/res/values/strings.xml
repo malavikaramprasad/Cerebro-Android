@@ -50,5 +50,6 @@
         <item>Tutor10</item>
 
     </string-array>
+    <string name="title_activity_tutoring_location">Preferred Tutoring Location</string>
 
 </resources>
