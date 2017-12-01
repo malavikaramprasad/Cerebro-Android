@@ -1,9 +1,13 @@
 package com.hci.project.cerebro;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,10 +32,16 @@ public class UserController implements Callback<User> {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
+
+
+//        Map<String, String> map = new HashMap<>();
+//        map.put("X-Authorization", token);
+//
         CerebroAPI cerebro_api = retrofit.create(CerebroAPI.class);
 
-        Call<User> call = cerebro_api.loadChanges();
-        call.enqueue(this);
+
+        //Call<User> call = cerebro_api.loadChanges();
+        //call.enqueue(this);
     }
 
 

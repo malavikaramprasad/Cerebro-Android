@@ -21,7 +21,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -107,9 +109,16 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
+        SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences("MyPref",0);
+        String token = settings.getString("Current_User", "defaultvalue");
+
+        Map<String, String> map = new HashMap<>();
+        map.put("X-Authorization", token);
+
+
         SkillAPI skill_api = retrofit.create(SkillAPI.class);
 
-        skill_api.getSkills().enqueue(new Callback<List<Skill>>()
+        skill_api.getSkills(map).enqueue(new Callback<List<Skill>>()
         {
             @Override
             public void onResponse(Call<List<Skill>> call, Response<List<Skill>> response) {
@@ -131,9 +140,10 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
 //                ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(),
 //                        android.R.layout.simple_dropdown_item_1line, skillNames);
 //                AutoCompleteTextView textView = (AutoCompleteTextView) rootView.findViewById(R.id.topic);
-//                textView.setAdapter(adapter1);
+//                textView.s
+// etAdapter(adapter1);
 //                textView.setThreshold(1);//will start working from first character
-//                textView.setAdapter(adapter1);//
+//                textViewiew.setAdapter(adapter1);//
 //                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
 //                        android.R.layout.simple_dropdown_item_1line, skillNames);
 //                AutoCompleteTextView textView = (AutoCompleteTextView)
@@ -163,8 +173,6 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
             }
         }
         if(!TextUtils.isEmpty(tag) && !TextUtils.isEmpty(description)) {
-            String token = "X-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidnBhbmRpMkB1aWMuZWR1IiwiZXhwIjoxNTEyMTU1MjY4fQ.1ucDSDzGjnEgN--t_TuYolwlfagf9jPsDVo6kG1cXPU";
-
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(CreateUser.class, new CustomGsonAdapter.UserAdapter())
                     .setLenient()
@@ -175,9 +183,15 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
 
+
+            Map<String, String> map = new HashMap<>();
+            map.put("X-Authorization", token);
+
+
+
             SubmitQuestionAPI submitQn_api = retrofit.create(SubmitQuestionAPI.class);
             SubmitQuestion submitQuestion = new SubmitQuestion(tag_id,description,learner_id);
-            submitQn_api.addQuestion(submitQuestion).enqueue(new Callback<List<User>>() {
+            submitQn_api.addQuestion(map, submitQuestion).enqueue(new Callback<List<User>>() {
                 @Override
                 public void onResponse(Call<List<User>> call, Response<List<User>> response) {
 
