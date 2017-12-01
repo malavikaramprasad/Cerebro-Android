@@ -180,18 +180,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onResponse(Call<User> call, Response <User> response)
             {
-                System.out.println("Fetching User details :: " + response.toString());
-                String first_name = response.body().first_name;
-                String last_name = response.body().first_name;
-                String emailID = response.body().first_name;
-                int userID = response.body().id;
-                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-                SharedPreferences.Editor editor = pref.edit();
-                //on the login store the login
-                editor.putString("Current_User_fName", first_name);
-                editor.putInt("Current_User_Id", userID);
-                editor.putString("Current_User_lName", last_name);
-                editor.commit();
+                if (response.isSuccessful()) {
+                    System.out.println("Fetching User details :: " + response.toString());
+                    String first_name = response.body().first_name;
+                    String last_name = response.body().last_name;
+                    String emailID = response.body().email;
+                    int userID = response.body().id;
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                    SharedPreferences.Editor editor = pref.edit();
+                    //on the login store the login
+                    editor.putString("Current_User_fName", first_name);
+                    editor.putInt("Current_User_Id", userID);
+                    editor.putString("Current_User_lName", last_name);
+                    editor.putString("Current_User_email", emailID);
+                    editor.commit();
+                }
             }
             public void onFailure(Call<User> call, Throwable t)
             {
