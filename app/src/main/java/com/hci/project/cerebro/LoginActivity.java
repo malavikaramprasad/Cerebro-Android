@@ -12,6 +12,7 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.drawable.DrawableWrapper;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -83,18 +84,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordConfView;
     private View mProgressView;
     private View mLoginFormView;
-    public final String[] skillNames = new String[10];
-    public final int[] skillIds = new int[10];
+    //public final String[] skillNames = new String[10];
+    //public final int[] skillIds = new int[10];
+
 
     String flag;
     String message;
 
-    public String[] returnSkill(){
-        return skillNames;
-    }
-    public int[] returnSkillId(){
-        return skillIds;
-    }
+    public String user_fn;
+    public String user_ln;
+    public int user_id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,8 +117,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             last_name.setVisibility(View.GONE);
             sin_sup_button.setText(action_sign_in_short);
             pass_conf.setVisibility(View.GONE);
-            Intent intent1 = new Intent(getApplicationContext(), DrawerActivity.class);
-            startActivity(intent1);
+//            Intent intent1 = new Intent(getApplicationContext(), DrawerActivity.class);
+//            startActivity(intent1);
 
         }
 
@@ -145,17 +145,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             public void onClick(View view) {
                 attemptLogin();
                 //Intent newIntent = new Intent(LoginActivity.this, DrawerActivity.class);
-                //final Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
                 //startActivity(newIntent);
-                //UserController controller = new UserController();
-                //controller.start();
-                //Fetch User details
-                //fetchUserDetails();
-
-                //onCheck();
-
                 if(!Objects.equals(mPasswordView.getText().toString(), mPasswordConfView.getText().toString()) && Objects.equals(flag, "1")){
-
                     //passwords do not match. Show toast
                     Toast toast = Toast.makeText(getApplicationContext(),"Passwords do not match!",Toast.LENGTH_LONG);
                     toast.show();
@@ -184,20 +175,28 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 .build();
 
         CerebroAPI cerebro_api = retrofit.create(CerebroAPI.class);
-
         cerebro_api.loadChanges().enqueue(new Callback<User>()
         {
             @Override
             public void onResponse(Call<User> call, Response <User> response)
             {
-
+                System.out.println("Fetching User details :: " + response.toString());
+                String first_name = response.body().first_name;
+                String last_name = response.body().first_name;
+                String emailID = response.body().first_name;
+                int userID = response.body().id;
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                SharedPreferences.Editor editor = pref.edit();
+                //on the login store the login
+                editor.putString("Current_User_fName", first_name);
+                editor.putInt("Current_User_Id", userID);
+                editor.putString("Current_User_lName", last_name);
+                editor.commit();
             }
-
-            public  void  onFailure(Call<User> call, Throwable t)
+            public void onFailure(Call<User> call, Throwable t)
             {
                 t.printStackTrace();
             }
-
          });
     }
 
@@ -214,32 +213,62 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         EditText confirm_password = findViewById(R.id.password_confirm);
         String confirm_pass = confirm_password.getText().toString();
 
-
+        // Common across If and else
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(CreateUser.class, new CustomGsonAdapter.UserAdapter())
+                .setLenient()
+                .create();
+        final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
 
         if(!TextUtils.isEmpty(firstname) && !TextUtils.isEmpty(lastname) &&
                 !TextUtils.isEmpty(emailID) && !TextUtils.isEmpty(pass)) {
-            Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(CreateUser.class, new CustomGsonAdapter.UserAdapter())
-                    .setLenient()
-                    .create();
-            final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build();
-
             CreateUserAPI createUser_api = retrofit.create(CreateUserAPI.class);
             CreateUser createUser = new CreateUser(firstname,lastname,emailID,pass,confirm_pass);
             createUser_api.addPost(createUser).enqueue(new Callback<UserToken>() {
                 @Override
                 public void onResponse(Call<UserToken> call, Response<UserToken> response) {
-
                     if (response.isSuccessful()) {
                         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
                         SharedPreferences.Editor editor = pref.edit();
                         //on the login store the login
                         editor.putString("Current_User", response.body().token);
                         editor.commit();
+                        fetchUserDetails();
+                        //System.out.println("Response Bodyyyyy : :: : " + response.toString());
+                        //System.out.println("Token : :: : " + response.body().token);
+                        //System.out.println("Response  :::" + response.body().toString());
+                        if(response.body().token != null) {
+                            //getSkills();
+                            //getDeviceID();
+                            Intent learnerIntent = new Intent(LoginActivity.this, DrawerActivity.class);
+                            startActivity(learnerIntent);
+                        }
+                    }
+                }
+                @Override
+                public void onFailure(Call<UserToken> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        }
+        else
+        {
+            UserSigninAPI signin_api = retrofit.create(UserSigninAPI.class);
+            UserSignin login = new UserSignin(emailID,pass);
+            signin_api.userSignin(login).enqueue(new Callback<UserToken>() {
+                @Override
+                public void onResponse(Call<UserToken> call, Response<UserToken> response) {
+                    if (response.isSuccessful()) {
+                        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                        SharedPreferences.Editor editor = pref.edit();
+                        //on the login store the login
+                        editor.putString("Current_User", response.body().token);
+                        editor.commit();
+                        fetchUserDetails();
                         //System.out.println("Response Bodyyyyy : :: : " + response.toString());
                         //System.out.println("Token : :: : " + response.body().token);
                         //System.out.println("Response  :::" + response.body().toString());
@@ -258,48 +287,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             });
         }
     }
-    public void getSkills()
-    {
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-        final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
 
-        SkillAPI skill_api = retrofit.create(SkillAPI.class);
-
-        skill_api.getSkills().enqueue(new Callback<List<Skill>>()
-        {
-            @Override
-            public void onResponse(Call<List<Skill>> call, Response<List<Skill>> response)
-            {
-                System.out.println("Response SKILLS :::" + response.body());
-                List<Skill> arrayList = response.body();
-
-                int count = arrayList.size();
-                int i = 0;
-                while(i < count) {
-                    skillNames[i] = arrayList.get(i).getName();
-                    skillIds[i] = arrayList.get(i).getId();
-                    i++;
-                }
-                System.out.println("Name Array ::" + skillNames);
-                System.out.println("ID Array ::" + skillIds);
-//                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
-//                        android.R.layout.simple_dropdown_item_1line, skillNames);
-//                AutoCompleteTextView textView = (AutoCompleteTextView)
-//                        findViewById(R.id.topic);
-//                textView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<Skill>> call, Throwable t)
-            { t.printStackTrace();}
-        });
-    }
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
@@ -419,7 +407,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
             //if login details correct, send user to dashboard
-            //onCheck();
         }
     }
 

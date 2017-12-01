@@ -30,7 +30,7 @@ public class DrawerActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        // Start - Defaulting the application with Learner fragment
+        // Start - Defaulting the application with Learner fragment -
         LearnerFragment fragment1 = new LearnerFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -42,14 +42,6 @@ public class DrawerActivity extends AppCompatActivity
         //navigationView.findViewById(R.id.fab).setVisibility(View.GONE);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //        Button bttnView = (Button) findViewById(R.id.submit_question);
-//        bttnView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                EditText topic = (EditText) findViewById(R.id.topic);
-//                EditText description = (EditText) findViewById(R.id.description);
-//            }
-//        });
     }
     NavigationView navigationView;
 
