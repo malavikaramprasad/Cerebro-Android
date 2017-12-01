@@ -46,5 +46,6 @@ public class TutorProfileActivity extends AppCompatActivity {
         skills.add(skill6.getText().toString());
 
         //TIMING PREFERENCES
+
     }
 }
