@@ -1,6 +1,7 @@
 package com.hci.project.cerebro;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,13 +20,19 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Header;
 
 
 /**
@@ -48,6 +55,9 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
     View rootView;
     public final String[] skillNames = new String[10];
     public final int[] skillID = new int[10];
+    String token, fname, lname ;
+    int userId;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,25 +66,25 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
         rootView = inflater.inflate(R.layout.fragment_learner, container,false);
         getSkills();
         btn = (Button) rootView.findViewById(R.id.submit_question);
+        SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences("MyPref",0);
+        token = settings.getString("Current_User", "defaultvalue");
+        fname = settings.getString("Current_User_fName", "defaultvalue");
+        lname = settings.getString("Current_User_lName", "defaultvalue");
+        userId = settings.getInt("Current_User_Id", 0);
         btn.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View rootView) {
+
                 Log.i("SubmitButton", "Button1 Clicked");
                 System.out.println("Button Clicked");
                 View rv = rootView.getRootView();
                 EditText topic = rv.findViewById(R.id.topic);
                 EditText desc = rv.findViewById(R.id.description);
-                //EditText topic = (EditText) rootView.findViewById(R.id.topic);
                 String tag = topic.getText().toString();
-                //EditText desc = (EditText) rootView.findViewById(R.id.description);
                 String description = desc.getText().toString();
-               // View rv = rootView.getRootView();
-                //EditText d = rv.findViewById(R.id.description);
-                int learner_id = 2;
+                int learner_id = userId;
                 registerQuestion(tag, description,learner_id);
-
-               // registerQuestion(tag, description);
                 listTutors();
             }
         });
@@ -82,9 +92,9 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
     }
     public void listTutors(){
 
-        ListView lv= (ListView) getActivity().findViewById(R.id.listview);
-        ArrayAdapter adapter= new ArrayAdapter<String>(getContext(), R.layout.list_item, getResources().getStringArray(R.array.Tutors));
-        lv.setAdapter(adapter);
+//        ListView lv= (ListView) getActivity().findViewById(R.id.listview);
+//        ArrayAdapter adapter= new ArrayAdapter<String>(getContext(), R.layout.list_item, getResources().getStringArray(R.array.Tutors));
+//        lv.setAdapter(adapter);
 
     }
 
@@ -99,41 +109,51 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
+        SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences("MyPref",0);
+        String token = settings.getString("Current_User", "defaultvalue");
+
+        Map<String, String> map = new HashMap<>();
+        map.put("X-Authorization", token);
+
+
         SkillAPI skill_api = retrofit.create(SkillAPI.class);
 
-        skill_api.getSkills().enqueue(new Callback<List<Skill>>()
+        skill_api.getSkills(map).enqueue(new Callback<List<Skill>>()
         {
             @Override
-            public void onResponse(Call<List<Skill>> call, Response<List<Skill>> response)
-            {
-                System.out.println("Response SKILLS :::" + response.body());
-                List<Skill> arrayList = response.body();
+            public void onResponse(Call<List<Skill>> call, Response<List<Skill>> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("Response SKILLS :::" + response.body());
+                    List<Skill> arrayList = response.body();
 
-                int count = arrayList.size();
-                int i = 0;
-                while(i < count) {
-                    skillNames[i] = arrayList.get(i).getName();
-                    skillID[i] = arrayList.get(i).getId();
-                    i++;
-                }
-                System.out.println("Name Array ::" + skillNames);
-                System.out.println("ID Array ::" + skillID);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                        android.R.layout.select_dialog_item, skillNames );
-                AutoCompleteTextView textView = (AutoCompleteTextView) rootView.findViewById(R.id.topic);
-                textView.setAdapter(adapter);
-                textView.setThreshold(1);//will start working from first character
-                textView.setAdapter(adapter);//
+                    int count = arrayList.size();
+                    int i = 0;
+                    while (i < count) {
+                        skillNames[i] = arrayList.get(i).getName();
+                        skillID[i] = arrayList.get(i).getId();
+                        i++;
+                    }
+                    System.out.println("Name Array ::" + skillNames);
+                    System.out.println("ID Array ::" + skillID);
+//                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+//                        android.R.layout.select_dialog_item, skillNames );
+//                ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(),
+//                        android.R.layout.simple_dropdown_item_1line, skillNames);
+//                AutoCompleteTextView textView = (AutoCompleteTextView) rootView.findViewById(R.id.topic);
+//                textView.s
+// etAdapter(adapter1);
+//                textView.setThreshold(1);//will start working from first character
+//                textViewiew.setAdapter(adapter1);//
 //                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
 //                        android.R.layout.simple_dropdown_item_1line, skillNames);
 //                AutoCompleteTextView textView = (AutoCompleteTextView)
 //                        findViewById(R.id.topic);
 //                textView.setAdapter(adapter);
+                }
             }
-
             @Override
-            public void onFailure(Call<List<Skill>> call, Throwable t)
-            { t.printStackTrace();}
+            public void onFailure(Call<List<Skill>> call, Throwable t){
+                t.printStackTrace();}
         });
     }
 
@@ -153,8 +173,6 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
             }
         }
         if(!TextUtils.isEmpty(tag) && !TextUtils.isEmpty(description)) {
-            String token = "X-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidnBhbmRpMkB1aWMuZWR1IiwiZXhwIjoxNTEyMTU1MjY4fQ.1ucDSDzGjnEgN--t_TuYolwlfagf9jPsDVo6kG1cXPU";
-
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(CreateUser.class, new CustomGsonAdapter.UserAdapter())
                     .setLenient()
@@ -165,9 +183,15 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
 
+
+            Map<String, String> map = new HashMap<>();
+            map.put("X-Authorization", token);
+
+
+
             SubmitQuestionAPI submitQn_api = retrofit.create(SubmitQuestionAPI.class);
             SubmitQuestion submitQuestion = new SubmitQuestion(tag_id,description,learner_id);
-            submitQn_api.addQuestion(submitQuestion).enqueue(new Callback<List<User>>() {
+            submitQn_api.addQuestion(map, submitQuestion).enqueue(new Callback<List<User>>() {
                 @Override
                 public void onResponse(Call<List<User>> call, Response<List<User>> response) {
 

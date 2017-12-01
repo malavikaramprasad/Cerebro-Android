@@ -1,5 +1,6 @@
 package com.hci.project.cerebro;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -14,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LearnerFragment.LearnerListener {
@@ -30,7 +33,7 @@ public class DrawerActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        // Start - Defaulting the application with Learner fragment
+        // Start - Defaulting the application with Learner fragment -
         LearnerFragment fragment1 = new LearnerFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -38,18 +41,22 @@ public class DrawerActivity extends AppCompatActivity
         fragmentTransaction.commit();
         hideLearnerItem();
         // End
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        //navigationView.findViewById(R.id.fab).setVisibility(View.GONE);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //        Button bttnView = (Button) findViewById(R.id.submit_question);
-//        bttnView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                EditText topic = (EditText) findViewById(R.id.topic);
-//                EditText description = (EditText) findViewById(R.id.description);
-//            }
-//        });
+        //Set user name and email in hamburger menu
+        SharedPreferences settings = getApplicationContext().getSharedPreferences("MyPref",0);
+        String fname = settings.getString("Current_User_fName", "defaultvalue");
+        String lname = settings.getString("Current_User_lName", "defaultvalue");
+        String email = settings.getString("Current_User_email", "defaultvalue");
+        String username = fname + " " + lname;
+        TextView txtProfileName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tab_username);
+        TextView txtProfileEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tab_email);
+        txtProfileName.setText(username);
+        txtProfileEmail.setText(email);
+        //End
+
     }
     NavigationView navigationView;
 
