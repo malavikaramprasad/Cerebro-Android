@@ -36,7 +36,9 @@ import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -152,8 +154,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     toast.show();
                 }
                 else {
-                UserController controller = new UserController();
-                controller.start();
+                    registerUser();
+                    String t = "";
+//                UserController controller = new UserController();
+//                controller.start();
                 }
             }
 
@@ -173,9 +177,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
+        SharedPreferences settings = getApplicationContext().getSharedPreferences("MyPref",0);
+        String token = settings.getString("Current_User", "defaultvalue");
+
+        Map<String, String> map = new HashMap<>();
+        map.put("X-Authorization", token);
 
         CerebroAPI cerebro_api = retrofit.create(CerebroAPI.class);
-        cerebro_api.loadChanges().enqueue(new Callback<User>()
+        cerebro_api.loadChanges(map).enqueue(new Callback<User>()
         {
             @Override
             public void onResponse(Call<User> call, Response <User> response)

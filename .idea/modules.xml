@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CereBro.iml" filepath="$PROJECT_DIR$/CereBro.iml" />
-      <module fileurl="file://D:\University of Illinois at Chicago\Fall 2017\CS 522 - Human Computer Interaction\CereBro\CereBro-Android.iml" filepath="D:\University of Illinois at Chicago\Fall 2017\CS 522 - Human Computer Interaction\CereBro\CereBro-Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CereBro-Android_New.iml" filepath="$PROJECT_DIR$/CereBro-Android_New.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
