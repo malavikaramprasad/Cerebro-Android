@@ -201,6 +201,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     float y_coordinate = response.body().y_coordinate;
                     Time start_time = response.body().start_time;
                     Time end_time = response.body().end_time;
+                    String start_time_string =" ";
+                    String end_time_string = " ";
+                    if(start_time != null){
+                        start_time_string = start_time.toString();
+                    }
+                    if(end_time != null){
+                        end_time_string = end_time.toString();
+                    }
                     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
                     SharedPreferences.Editor editor = pref.edit();
                     //on the login store the login
@@ -211,8 +219,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     editor.putFloat("Current_User_rating", rating);
                     editor.putFloat("Current_User_x_coordinate", x_coordinate);
                     editor.putFloat("Current_User_y_coordinate", y_coordinate);
-                    editor.putString("Current_User_starttime", start_time.toString());
-                    editor.putString("Current_User_endtime", end_time.toString());
+                    editor.putString("Current_User_starttime",start_time_string );
+                    editor.putString("Current_User_endtime", end_time_string);
                     editor.commit();
                 }
             }
