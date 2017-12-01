@@ -1,89 +1,284 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingBottom="66dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="66dp"
+    android:paddingTop="16dp"
     tools:context="com.hci.project.cerebro.LoginActivity">
 
-    <TextView
-        android:id="@+id/textView6"
+    <!--Add upto 6 skills-->
+    <LinearLayout
+        android:id="@+id/add_skills"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="If you would like to register as a Tutor too, please add upto 6 skills"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <GridLayout
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:text="Would you like to teach other students too? If so, add 6 topics you're good at!"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/skill1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginTop="20dp"
+                android:layout_row="0"
+                android:ems="10"
+                android:hint="Skill 1"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/skill2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginTop="20dp"
+                android:layout_row="1"
+                android:ems="10"
+                android:hint="Skill 2"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/skill3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginTop="20dp"
+                android:layout_row="2"
+                android:ems="10"
+                android:hint="Skill 3"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/skill4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginTop="20dp"
+                android:layout_row="3"
+                android:ems="10"
+                android:hint="Skill 4"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/skill5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginTop="20dp"
+                android:layout_row="4"
+                android:ems="10"
+                android:hint="Skill 5"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/skill6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginTop="20dp"
+                android:layout_row="5"
+                android:ems="10"
+                android:hint="Skill 6"
+                android:inputType="textPersonName" />
+        </GridLayout>
+
+        <Button
+            android:id="@+id/go_time"
+            android:layout_weight="0.1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose your preferred times to teach your friends! \u25B6" />
+
+    </LinearLayout>
+
+
+    <!--Preferred times for today, tomorrow and overmorrow-->
+    <LinearLayout
+        android:id="@+id/add_time"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
 
-        <EditText
-            android:id="@+id/skill1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_column="0"
-            android:layout_row="0"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Skill 1" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"/>
 
-        <EditText
-            android:id="@+id/skill2"
-            android:layout_width="match_parent"
+        <!--Time for today-->
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_marginTop="20dp"
-            android:layout_row="1"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Skill 2" />
-        <EditText
-            android:id="@+id/skill3"
-            android:layout_width="match_parent"
+            android:layout_weight="0.2"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/prompt_today"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="What time can you help students today?"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+                <Button
+                    android:id="@+id/from_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="From:(TIME)" />
+
+                <Button
+                    android:id="@+id/till_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Till:(TIME)" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="40dp"
+                android:background="#000000" />
+        </LinearLayout>
+
+        <!--Time for tomorrow-->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="0.2"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_column="0"
-            android:layout_row="2"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Skill 3" />
-        <EditText
-            android:id="@+id/skill4"
-            android:layout_width="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/prompt_tomorrow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="What time can you help students tomorrow?"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+                <Button
+                    android:id="@+id/from_tomorrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="From:(TIME)" />
+
+                <Button
+                    android:id="@+id/till_tomorrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Till:(TIME)" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="40dp"
+            android:background="#000000" />
+        </LinearLayout>
+
+
+        <!--Time for overmorrow-->
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_column="0"
-            android:layout_row="3"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Skill 4" />
-        <EditText
-            android:id="@+id/skill5"
-            android:layout_width="match_parent"
+            android:layout_weight="0.2"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/prompt_ovemorrow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="What time can you help students the day after tomorrow?"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+                <Button
+                    android:id="@+id/from_overmorrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="From:(TIME)" />
+
+                <Button
+                    android:id="@+id/till_overmorrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Till:(TIME)" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="40dp"
+                android:background="#000000" />
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/select_location"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_column="0"
-            android:layout_row="4"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Skill 5" />
-        <EditText
-            android:id="@+id/skill6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_column="0"
-            android:layout_row="5"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Skill 6" />
-    </GridLayout>
+            android:layout_marginBottom="20dp"
+            android:text="Select your preferred place to teach \u25b6" />
+    </LinearLayout>
+
 </LinearLayout>
