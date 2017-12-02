@@ -9,7 +9,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -29,8 +30,9 @@ public class TutoringLocationActivity extends FragmentActivity implements OnMapR
 
     private GoogleMap mMap;
     double latitude, longitude;
+    Button conf_location;
+    TextView location_prompt, location_details;
     private FusedLocationProviderClient mFusedLocationClient;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +53,8 @@ public class TutoringLocationActivity extends FragmentActivity implements OnMapR
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
             if (addresses.size() > 0) {
                 Address address = addresses.get(0);
-                result.append(address.getSubThoroughfare()).append("\n");
-                result.append(address.getThoroughfare()).append("\n");
-                result.append(address.getLocality()).append("\n");
-                result.append(address.getCountryName());
+                result.append(address.getSubThoroughfare()).append(" ");
+                result.append(address.getThoroughfare());
             }
         } catch (IOException e) {
             Log.e("tag", e.getMessage());
@@ -66,6 +66,9 @@ public class TutoringLocationActivity extends FragmentActivity implements OnMapR
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
+        location_prompt = findViewById(R.id.location_prompt);
+        location_details = findViewById(R.id.location_details);
+        conf_location = findViewById(R.id.conf_location);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -78,9 +81,9 @@ public class TutoringLocationActivity extends FragmentActivity implements OnMapR
                         if (location != null) {
                             latitude = location.getLatitude();
                             longitude = location.getLongitude();
-                            LatLng sydney = new LatLng(latitude, longitude);
-                            mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15));
+                            LatLng chosen_location = new LatLng(latitude, longitude);
+                            mMap.addMarker(new MarkerOptions().position(chosen_location).title("Your Current Location")).showInfoWindow();
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(chosen_location, 16));
                         }
                     }
                 });
@@ -94,7 +97,8 @@ public class TutoringLocationActivity extends FragmentActivity implements OnMapR
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
 //                markerOptions.title(getAddress(lat, lng));
-                Toast.makeText(getApplicationContext(), getAddress(lat, lng), Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), getAddress(lat, lng), Toast.LENGTH_LONG).show();
+                location_details.setText("Your Selected Address is:\n " + getAddress(lat, lng));
                 googleMap.clear();
                 googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                 googleMap.addMarker(markerOptions);
