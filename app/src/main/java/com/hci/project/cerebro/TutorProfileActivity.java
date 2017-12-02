@@ -63,7 +63,8 @@ public class TutorProfileActivity extends AppCompatActivity {
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //go to dashboard. Disable tutor view
+                Intent intent = new Intent(TutorProfileActivity.this, DrawerActivity.class);
+                startActivity(intent);
             }
         });
 

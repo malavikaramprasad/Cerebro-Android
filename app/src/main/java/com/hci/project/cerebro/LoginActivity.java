@@ -181,69 +181,69 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
     }
 
-    public void fetchUserDetails()
-    {
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-        final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-        SharedPreferences settings = getApplicationContext().getSharedPreferences("MyPref",0);
-        String token = settings.getString("Current_User", "defaultvalue");
-
-        Map<String, String> map = new HashMap<>();
-        map.put("X-Authorization", token);
-
-        CerebroAPI cerebro_api = retrofit.create(CerebroAPI.class);
-
-        cerebro_api.loadChanges(map).enqueue(new Callback<User>()
-        {
-            @Override
-            public void onResponse(Call<User> call, Response <User> response)
-            {
-                if (response.isSuccessful()) {
-                    System.out.println("Fetching User details :: " + response.toString());
-                    String first_name = response.body().first_name;
-                    String last_name = response.body().last_name;
-                    String emailID = response.body().email;
-                    int userID = response.body().id;
-                    float rating = response.body().rating;
-                    float x_coordinate = response.body().x_coordinate;
-                    float y_coordinate = response.body().y_coordinate;
-                    Time start_time = response.body().start_time;
-                    Time end_time = response.body().end_time;
-                    String start_time_string =" ";
-                    String end_time_string = " ";
-                    if(start_time != null){
-                        start_time_string = start_time.toString();
-                    }
-                    if(end_time != null){
-                        end_time_string = end_time.toString();
-                    }
-                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-                    SharedPreferences.Editor editor = pref.edit();
-                    //on the login store the login
-                    editor.putString("Current_User_fName", first_name);
-                    editor.putInt("Current_User_Id", userID);
-                    editor.putString("Current_User_lName", last_name);
-                    editor.putString("Current_User_email", emailID);
-                    editor.putFloat("Current_User_rating", rating);
-                    editor.putFloat("Current_User_x_coordinate", x_coordinate);
-                    editor.putFloat("Current_User_y_coordinate", y_coordinate);
-                    editor.putString("Current_User_starttime",start_time_string );
-                    editor.putString("Current_User_endtime", end_time_string);
-                    editor.commit();
-                }
-            }
-            public void onFailure(Call<User> call, Throwable t)
-            {
-                t.printStackTrace();
-            }
-         });
-    }
+//    public void fetchUserDetails()
+//    {
+//        Gson gson = new GsonBuilder()
+//                .setLenient()
+//                .create();
+//        final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(BASE_URL)
+//                .addConverterFactory(GsonConverterFactory.create(gson))
+//                .build();
+//        SharedPreferences settings = getApplicationContext().getSharedPreferences("MyPref",0);
+//        String token = settings.getString("Current_User", "defaultvalue");
+//
+//        Map<String, String> map = new HashMap<>();
+//        map.put("X-Authorization", token);
+//
+//        CerebroAPI cerebro_api = retrofit.create(CerebroAPI.class);
+//
+//        cerebro_api.loadChanges(map).enqueue(new Callback<User>()
+//        {
+//            @Override
+//            public void onResponse(Call<User> call, Response <User> response)
+//            {
+//                if (response.isSuccessful()) {
+//                    System.out.println("Fetching User details :: " + response.toString());
+//                    String first_name = response.body().first_name;
+//                    String last_name = response.body().last_name;
+//                    String emailID = response.body().email;
+//                    int userID = response.body().id;
+//                    float rating = response.body().rating;
+//                    float x_coordinate = response.body().x_coordinate;
+//                    float y_coordinate = response.body().y_coordinate;
+//                    Time start_time = response.body().start_time;
+//                    Time end_time = response.body().end_time;
+//                    String start_time_string =" ";
+//                    String end_time_string = " ";
+//                    if(start_time != null){
+//                        start_time_string = start_time.toString();
+//                    }
+//                    if(end_time != null){
+//                        end_time_string = end_time.toString();
+//                    }
+//                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+//                    SharedPreferences.Editor editor = pref.edit();
+//                    //on the login store the login
+//                    editor.putString("Current_User_fName", first_name);
+//                    editor.putInt("Current_User_Id", userID);
+//                    editor.putString("Current_User_lName", last_name);
+//                    editor.putString("Current_User_email", emailID);
+//                    editor.putFloat("Current_User_rating", rating);
+//                    editor.putFloat("Current_User_x_coordinate", x_coordinate);
+//                    editor.putFloat("Current_User_y_coordinate", y_coordinate);
+//                    editor.putString("Current_User_starttime",start_time_string );
+//                    editor.putString("Current_User_endtime", end_time_string);
+//                    editor.commit();
+//                }
+//            }
+//            public void onFailure(Call<User> call, Throwable t)
+//            {
+//                t.printStackTrace();
+//            }
+//         });
+//    }
 
     public void registerUser()
     {
@@ -282,7 +282,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         //on the login store the login
                         editor.putString("Current_User", response.body().token);
                         editor.commit();
-                        fetchUserDetails();
+                        //fetchUserDetails();
                         //System.out.println("Response Bodyyyyy : :: : " + response.toString());
                         //System.out.println("Token : :: : " + response.body().token);
                         //System.out.println("Response  :::" + response.body().toString());
@@ -313,7 +313,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         //on the login store the login
                         editor.putString("Current_User", response.body().token);
                         editor.commit();
-                        fetchUserDetails();
+                        //fetchUserDetails();
                         //System.out.println("Response Bodyyyyy : :: : " + response.toString());
                         //System.out.println("Token : :: : " + response.body().token);
                         //System.out.println("Response  :::" + response.body().toString());

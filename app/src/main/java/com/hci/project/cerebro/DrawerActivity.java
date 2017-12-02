@@ -21,6 +21,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.sql.Time;
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LearnerFragment.LearnerListener {
 
@@ -45,6 +58,10 @@ public class DrawerActivity extends AppCompatActivity
         hideLearnerItem();
         // End
 
+        //fetch user details
+        fetchUserDetails();
+        //end
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -54,14 +71,81 @@ public class DrawerActivity extends AppCompatActivity
         String lname = settings.getString("Current_User_lName", "defaultvalue");
         String email = settings.getString("Current_User_email", "defaultvalue");
         String username = fname + " " + lname;
-        TextView txtProfileName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tab_username);
-        TextView txtProfileEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tab_email);
-        txtProfileName.setText(username);
-        txtProfileEmail.setText(email);
+
         //End
 
     }
     NavigationView navigationView;
+
+    private void fetchUserDetails()
+    {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        SharedPreferences settings = getApplicationContext().getSharedPreferences("MyPref",0);
+        String token = settings.getString("Current_User", "defaultvalue");
+
+        Map<String, String> map = new HashMap<>();
+        map.put("X-Authorization", token);
+
+        CerebroAPI cerebro_api = retrofit.create(CerebroAPI.class);
+
+        cerebro_api.loadChanges(map).enqueue(new Callback<User>()
+        {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response)
+            {
+                if (response.isSuccessful()) {
+                    System.out.println("Fetching User details :: " + response.toString());
+                    String first_name = response.body().first_name;
+                    String last_name = response.body().last_name;
+                    String emailID = response.body().email;
+                    int userID = response.body().id;
+                    float rating = response.body().rating;
+                    float x_coordinate = response.body().x_coordinate;
+                    float y_coordinate = response.body().y_coordinate;
+                    Time start_time = response.body().start_time;
+                    Time end_time = response.body().end_time;
+                    String start_time_string =" ";
+                    String end_time_string = " ";
+                    if(start_time != null){
+                        start_time_string = start_time.toString();
+                    }
+                    if(end_time != null){
+                        end_time_string = end_time.toString();
+                    }
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                    SharedPreferences.Editor editor = pref.edit();
+                    //on the login store the login
+                    editor.putString("Current_User_fName", first_name);
+                    editor.putInt("Current_User_Id", userID);
+                    editor.putString("Current_User_lName", last_name);
+                    editor.putString("Current_User_email", emailID);
+                    editor.putFloat("Current_User_rating", rating);
+                    editor.putFloat("Current_User_x_coordinate", x_coordinate);
+                    editor.putFloat("Current_User_y_coordinate", y_coordinate);
+                    editor.putString("Current_User_starttime",start_time_string );
+                    editor.putString("Current_User_endtime", end_time_string);
+                    editor.commit();
+                    TextView txtProfileName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tab_username);
+                    TextView txtProfileEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tab_email);
+                    String username = first_name + " " + last_name;
+                    txtProfileName.setText(username);
+                    txtProfileEmail.setText(emailID);
+                }
+            }
+            public void onFailure(Call<User> call, Throwable t)
+            {
+                t.printStackTrace();
+            }
+        });
+    }
+
 
     private void hideLearnerItem() {
         navigationView = (NavigationView) findViewById(R.id.nav_view);

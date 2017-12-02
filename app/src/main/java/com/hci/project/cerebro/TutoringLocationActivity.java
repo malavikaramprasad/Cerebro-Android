@@ -1,6 +1,7 @@
 package com.hci.project.cerebro;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -99,6 +101,14 @@ public class TutoringLocationActivity extends FragmentActivity implements OnMapR
 //                markerOptions.title(getAddress(lat, lng));
 //                Toast.makeText(getApplicationContext(), getAddress(lat, lng), Toast.LENGTH_LONG).show();
                 location_details.setText("Your Selected Address is:\n " + getAddress(lat, lng));
+                conf_location.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // Call Retrofit
+                        Intent intent = new Intent(TutoringLocationActivity.this, DrawerActivity.class);
+                        startActivity(intent);
+                    }
+                });
                 googleMap.clear();
                 googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                 googleMap.addMarker(markerOptions);
