@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -92,18 +94,13 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                 String description = desc.getText().toString();
                 int learner_id = userId;
                 registerQuestion(tag, description,learner_id);
-                listTutors();
+                //listTutors();
+                Intent intent= new Intent(getActivity(), ListOfTutors.class);
             }
         });
         return rootView;
     }
-    public void listTutors(){
 
-//        ListView lv= (ListView) getActivity().findViewById(R.id.listview);
-//        ArrayAdapter adapter= new ArrayAdapter<String>(getContext(), R.layout.list_item, getResources().getStringArray(R.array.Tutors));
-//        lv.setAdapter(adapter);
-
-    }
 
     public void getSkills()
     {

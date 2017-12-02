@@ -38,7 +38,10 @@
             android:label="@string/title_activity_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".TutorProfileActivity" />
-        <activity android:name=".MessageFromLearner"></activity>
+        <activity android:name=".MessageFromLearner" />
+        <activity
+            android:name=".ListOfTutors"
+            android:label="@string/title_activity_list_of_tutors"></activity>
     </application>
 
 </manifest>
