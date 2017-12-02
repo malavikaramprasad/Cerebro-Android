@@ -1,32 +1,30 @@
 package com.hci.project.cerebro;
 
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.TimePicker;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class TutorProfileActivity extends AppCompatActivity {
 
     //SKILLS Variables
-    LinearLayout add_skills;
     EditText skill1, skill2, skill3, skill4, skill5, skill6;
     List<String> skills;
-    Button go_time;
-
-    //TIMES Variables
-    LinearLayout add_time;
-    Button from_today, till_today, from_tomorrow, till_tomorrow, from_overmorrow, till_overmorrow;
+    Button from_time, till_time;
     Button select_location;
+    private int mHour, mMinute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutor_profile);
-
 
         //SKILLS
         skill1 = findViewById(R.id.skill1);
@@ -46,5 +44,44 @@ public class TutorProfileActivity extends AppCompatActivity {
         skills.add(skill6.getText().toString());
 
         //TIMING PREFERENCES
+        from_time = findViewById(R.id.from_time);
+        till_time = findViewById(R.id.till_time);
+
+    }
+
+    public void onClick(View v) {
+
+            // Get Current Time
+            final Calendar c = Calendar.getInstance();
+            mHour = c.get(Calendar.HOUR_OF_DAY);
+            mMinute = c.get(Calendar.MINUTE);
+
+            // Launch Time Picker Dialog
+        if (v==from_time) {
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                    new TimePickerDialog.OnTimeSetListener() {
+
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                              int minute) {
+
+                            from_time.setText(hourOfDay + ":" + minute);
+                        }
+                    }, mHour, mMinute, false);
+            timePickerDialog.show();
+        }
+        if (v==till_time) {
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                    new TimePickerDialog.OnTimeSetListener() {
+
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                              int minute) {
+
+                            till_time.setText(hourOfDay + ":" + minute);
+                        }
+                    }, mHour, mMinute, false);
+            timePickerDialog.show();
+        }
     }
 }
