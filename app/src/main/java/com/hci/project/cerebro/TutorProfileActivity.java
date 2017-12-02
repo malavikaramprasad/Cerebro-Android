@@ -1,6 +1,7 @@
 package com.hci.project.cerebro;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,7 +19,7 @@ public class TutorProfileActivity extends AppCompatActivity {
     EditText skill1, skill2, skill3, skill4, skill5, skill6;
     List<String> skills;
     Button from_time, till_time;
-    Button select_location;
+    Button go_location, skip;
     private int mHour, mMinute;
 
     @Override
@@ -46,6 +47,25 @@ public class TutorProfileActivity extends AppCompatActivity {
         //TIMING PREFERENCES
         from_time = findViewById(R.id.from_time);
         till_time = findViewById(R.id.till_time);
+
+        //Go to choose location
+        go_location = findViewById(R.id.go_location);
+        go_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TutorProfileActivity.this, TutoringLocationActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //SKIP to dashboard
+        skip = findViewById(R.id.skip);
+        skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //go to dashboard. Disable tutor view
+            }
+        });
 
     }
 

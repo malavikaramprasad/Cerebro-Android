@@ -14,8 +14,7 @@
         android:id="@+id/add_skills"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="visible">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView6"
@@ -91,11 +90,13 @@
                 android:inputType="textPersonName" />
         </GridLayout>
 
+        <!--Set time-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/prompt_time"
                 android:layout_width="match_parent"
@@ -114,7 +115,8 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
+
                 <Button
                     android:id="@+id/from_time"
                     android:layout_width="wrap_content"
@@ -132,8 +134,35 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
             </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/skip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Skip" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/go_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose Location \u25b6" />
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
