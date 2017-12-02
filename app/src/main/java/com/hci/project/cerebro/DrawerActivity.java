@@ -1,5 +1,6 @@
 package com.hci.project.cerebro;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -143,7 +144,18 @@ public class DrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-
+                SharedPreferences myPrefs = getApplicationContext().getSharedPreferences("MyPref",0);
+                SharedPreferences.Editor editor = myPrefs.edit();
+                editor.clear();
+                editor.commit();
+                //AppState.getSingleInstance().setLoggingOut(true);
+                setLoginState(true);
+                Log.d("Logout ?? ", "Now log out and start the activity login");
+                Intent intent = new Intent(DrawerActivity.this,
+                        LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -153,5 +165,12 @@ public class DrawerActivity extends AppCompatActivity
     private void setNavigationViewListner() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.drawer_layout);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+    private void setLoginState(boolean status) {
+        SharedPreferences sp = getSharedPreferences("LoginState",
+                MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putBoolean("setLoggingOut", status);
+        ed.commit();
     }
 }

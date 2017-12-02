@@ -124,6 +124,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //            startActivity(intent1);
 
         }
+        //Logging out code
+        SharedPreferences sp = getSharedPreferences("LoginState",
+                MODE_PRIVATE);
+        boolean stateValue  = sp.getBoolean("setLoggingOut", false);
+        if(stateValue){
+            register_prompt.setText(R.string.sin_prompt);
+            first_name.setVisibility(View.GONE);
+            last_name.setVisibility(View.GONE);
+            sin_sup_button.setText(action_sign_in_short);
+            pass_conf.setVisibility(View.GONE);
+        }
+        //END
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
