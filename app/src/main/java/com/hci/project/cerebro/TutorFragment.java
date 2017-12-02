@@ -2,12 +2,27 @@ package com.hci.project.cerebro;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 
 /**
@@ -25,10 +40,36 @@ public class TutorFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Fetch the requests of current user
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences("MyPref",0);
+        String token = settings.getString("Current_User", "defaultvalue");
+        Map<String, String> map = new HashMap<>();
+        map.put("X-Authorization", token);
+        TutorRequestsAPI requests_api = retrofit.create(TutorRequestsAPI.class);
+        requests_api.getRequests(map).enqueue(new Callback<List<SubmitQuestion>>()
+        {
+            @Override
+            public void onResponse(Call<List<SubmitQuestion>> call, Response<List<SubmitQuestion>> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("Response Requests :::" + response.body());
+                }
+            }
+            public void onFailure(Call<List<SubmitQuestion>> call, Throwable t){
+                t.printStackTrace();}
+        });
 
-
+        //End
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tutor, container, false);
+
     }
 
 
