@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -99,9 +101,19 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
     }
     public void listTutors(){
 
-//        ListView lv= (ListView) getActivity().findViewById(R.id.listview);
-//        ArrayAdapter adapter= new ArrayAdapter<String>(getContext(), R.layout.list_item, getResources().getStringArray(R.array.Tutors));
-//        lv.setAdapter(adapter);
+        ListView lv= (ListView) getActivity().findViewById(R.id.listview);
+        ArrayAdapter adapter= new ArrayAdapter<String>(getContext(), R.layout.list_item, getResources().getStringArray(R.array.Tutors));
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent= new Intent(getActivity(), TutorProfileActivity.class);
+                intent.putExtra("key",i );
+                intent.putExtra("key2", (Parcelable) view);
+                startActivity(intent);
+
+            }
+        });
 
     }
 
