@@ -1,18 +1,23 @@
 package com.hci.project.cerebro;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,11 +27,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Header;
 
 
 /**
@@ -71,6 +79,7 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
         y_coordinate = settings.getFloat("Current_User_y_coordinate", 0);
         start_time = settings.getString("Current_User_starttime","defaultValue");
         end_time = settings.getString("Current_User_endtime","defaultvalue");
+
         btn.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -85,18 +94,13 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                 String description = desc.getText().toString();
                 int learner_id = userId;
                 registerQuestion(tag, description,learner_id);
-                listTutors();
+                //listTutors();
+                Intent intent= new Intent(getActivity(), ListOfTutors.class);
             }
         });
         return rootView;
     }
-    public void listTutors(){
 
-//        ListView lv= (ListView) getActivity().findViewById(R.id.listview);
-//        ArrayAdapter adapter= new ArrayAdapter<String>(getContext(), R.layout.list_item, getResources().getStringArray(R.array.Tutors));
-//        lv.setAdapter(adapter);
-
-    }
 
     public void getSkills()
     {
@@ -127,22 +131,27 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                     List<Skill> arrayList = response.body();
                     int count = arrayList.size();
                     int i = 0;
-                    final ArrayList<SkillNameAdapter> list = new ArrayList<SkillNameAdapter>();
                     while (i < count) {
                         skillNames[i] = arrayList.get(i).getName();
-                        list.add(new SkillNameAdapter(arrayList.get(i).getName()));
                         skillID[i] = arrayList.get(i).getId();
                         i++;
                     }
                     System.out.println("Name Array ::" + skillNames);
                     System.out.println("ID Array ::" + skillID);
-
-                    AutoCompleteTextView tv = (AutoCompleteTextView) rootView.findViewById(R.id.topic);
-
-                    ArrayAdapter<SkillNameAdapter> adapter = new ArrayAdapter<SkillNameAdapter>(
-                            getContext(), android.R.layout.simple_dropdown_item_1line, list);
-                    tv.setAdapter(adapter);
-                    tv.setThreshold(1);
+//                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+//                        android.R.layout.select_dialog_item, skillNames );
+//                ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(),
+//                        android.R.layout.simple_dropdown_item_1line, skillNames);
+//                AutoCompleteTextView textView = (AutoCompleteTextView) rootView.findViewById(R.id.topic);
+//                textView.s
+// etAdapter(adapter1);
+//                textView.setThreshold(1);//will start working from first character
+//                textViewiew.setAdapter(adapter1);//
+//                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+//                        android.R.layout.simple_dropdown_item_1line, skillNames);
+//                AutoCompleteTextView textView = (AutoCompleteTextView)
+//                        findViewById(R.id.topic);
+//                textView.setAdapter(adapter);
                 }
             }
             @Override
@@ -176,17 +185,23 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
+
+
             Map<String, String> map = new HashMap<>();
             map.put("X-Authorization", token);
+
+
+
             SubmitQuestionAPI submitQn_api = retrofit.create(SubmitQuestionAPI.class);
             SubmitQuestion submitQuestion = new SubmitQuestion(tag_id,description,learner_id);
             submitQn_api.addQuestion(map, submitQuestion).enqueue(new Callback<List<User>>() {
                 @Override
                 public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+
                     if (response.isSuccessful()) {
                         List<User> changesList = response.body();
                         System.out.println("Response Bodyyyyy : :: : " + changesList);
-                        System.out.println("Response : :: : " + response.body());
+                        System.out.println("Token : :: : " + response.body());
                     }
                 }
                 @Override

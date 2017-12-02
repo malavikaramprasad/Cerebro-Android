@@ -197,7 +197,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         map.put("X-Authorization", token);
 
         CerebroAPI cerebro_api = retrofit.create(CerebroAPI.class);
-        cerebro_api.loadChanges(map).enqueue(new Callback<User>()
+
+        cerebro_api.loadChanges().enqueue(new Callback<User>()
         {
             @Override
             public void onResponse(Call<User> call, Response <User> response)
