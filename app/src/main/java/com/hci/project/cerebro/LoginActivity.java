@@ -128,12 +128,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         SharedPreferences sp = getSharedPreferences("LoginState",
                 MODE_PRIVATE);
         boolean stateValue  = sp.getBoolean("setLoggingOut", false);
-        if(stateValue){
+        if(stateValue && Objects.equals(flag, "0")){
             register_prompt.setText(R.string.sin_prompt);
             first_name.setVisibility(View.GONE);
             last_name.setVisibility(View.GONE);
             sin_sup_button.setText(action_sign_in_short);
             pass_conf.setVisibility(View.GONE);
+            flag = "0";
         }
         //END
 
@@ -198,7 +199,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         CerebroAPI cerebro_api = retrofit.create(CerebroAPI.class);
 
-        cerebro_api.loadChanges().enqueue(new Callback<User>()
+        cerebro_api.loadChanges(map).enqueue(new Callback<User>()
         {
             @Override
             public void onResponse(Call<User> call, Response <User> response)
@@ -288,7 +289,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         if(response.body().token != null) {
                             //getSkills();
                             //getDeviceID();
-                            Intent learnerIntent = new Intent(LoginActivity.this, DrawerActivity.class);
+                            Intent learnerIntent = new Intent(LoginActivity.this, TutorProfileActivity.class);
                             startActivity(learnerIntent);
                         }
                     }
@@ -341,6 +342,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
         else if(Objects.equals(flag, "1")){
             message = "Are you sure you want to abort Sign Up?";
+        }
+        else
+        {
+            message = "Are you sure you want to abort?";
         }
         builder.setMessage(message)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {

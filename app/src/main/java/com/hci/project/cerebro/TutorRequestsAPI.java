@@ -13,5 +13,5 @@ import retrofit2.http.HeaderMap;
 
 public interface TutorRequestsAPI {
     @GET("current_user/requests")
-    Call<List<SubmitQuestion>> getRequests(@HeaderMap Map<String, String> headers);
+    Call<TutorRequests> getRequests(@HeaderMap Map<String, String> headers);
 }

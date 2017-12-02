@@ -52,17 +52,17 @@ public class TutorFragment extends Fragment {
         SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences("MyPref",0);
         String token = settings.getString("Current_User", "defaultvalue");
         Map<String, String> map = new HashMap<>();
-        map.put("X-Authorization", token);
+        map.put("X-Authorization", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidnBhbmRpMkB1aWMuZWR1IiwiZXhwIjoxNTEyMjkyODE2fQ.H0-W02QWR9XDHeOl_4IunGuvrDjGUHkGM0ZA_88ELXk");
         TutorRequestsAPI requests_api = retrofit.create(TutorRequestsAPI.class);
-        requests_api.getRequests(map).enqueue(new Callback<List<SubmitQuestion>>()
+        requests_api.getRequests(map).enqueue(new Callback<TutorRequests>()
         {
             @Override
-            public void onResponse(Call<List<SubmitQuestion>> call, Response<List<SubmitQuestion>> response) {
+            public void onResponse(Call<TutorRequests> call, Response<TutorRequests> response) {
                 if (response.isSuccessful()) {
                     System.out.println("Response Requests :::" + response.body());
                 }
             }
-            public void onFailure(Call<List<SubmitQuestion>> call, Throwable t){
+            public void onFailure(Call<TutorRequests> call, Throwable t){
                 t.printStackTrace();}
         });
 
