@@ -36,11 +36,10 @@ captures/
 *.iml
 .gradle
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
+.idea/
 .DS_Store
-/build
-/captures
+build/
+captures/
 .externalNativeBuild
 
 # Google Services (e.g. APIs or Firebase)
