@@ -49,6 +49,11 @@
         <activity
             android:name=".ListOfTutors"
             android:label="@string/title_activity_list_of_tutors"></activity>
+        <activity android:name=".TutoringLocationActivity" >
+        </activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
     </application>
 
 </manifest>
