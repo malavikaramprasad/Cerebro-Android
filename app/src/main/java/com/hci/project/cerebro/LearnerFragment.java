@@ -94,28 +94,13 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                 String description = desc.getText().toString();
                 int learner_id = userId;
                 registerQuestion(tag, description,learner_id);
-                listTutors();
+                //listTutors();
+                Intent intent= new Intent(getActivity(), ListOfTutors.class);
             }
         });
         return rootView;
     }
-    public void listTutors(){
 
-        ListView lv= (ListView) getActivity().findViewById(R.id.listview);
-        ArrayAdapter adapter= new ArrayAdapter<String>(getContext(), R.layout.list_item, getResources().getStringArray(R.array.Tutors));
-        lv.setAdapter(adapter);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent= new Intent(getActivity(), TutorProfileActivity.class);
-                intent.putExtra("key",i );
-                intent.putExtra("key2", (Parcelable) view);
-                startActivity(intent);
-
-            }
-        });
-
-    }
 
     public void getSkills()
     {
