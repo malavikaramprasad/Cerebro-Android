@@ -131,27 +131,22 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                     List<Skill> arrayList = response.body();
                     int count = arrayList.size();
                     int i = 0;
+                    final ArrayList<SkillNameAdapter> list = new ArrayList<SkillNameAdapter>();
                     while (i < count) {
                         skillNames[i] = arrayList.get(i).getName();
+                        list.add(new SkillNameAdapter(arrayList.get(i).getName()));
                         skillID[i] = arrayList.get(i).getId();
                         i++;
                     }
                     System.out.println("Name Array ::" + skillNames);
                     System.out.println("ID Array ::" + skillID);
-//                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-//                        android.R.layout.select_dialog_item, skillNames );
-//                ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext(),
-//                        android.R.layout.simple_dropdown_item_1line, skillNames);
-//                AutoCompleteTextView textView = (AutoCompleteTextView) rootView.findViewById(R.id.topic);
-//                textView.s
-// etAdapter(adapter1);
-//                textView.setThreshold(1);//will start working from first character
-//                textViewiew.setAdapter(adapter1);//
-//                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
-//                        android.R.layout.simple_dropdown_item_1line, skillNames);
-//                AutoCompleteTextView textView = (AutoCompleteTextView)
-//                        findViewById(R.id.topic);
-//                textView.setAdapter(adapter);
+
+                    AutoCompleteTextView tv = (AutoCompleteTextView) rootView.findViewById(R.id.topic);
+
+                    ArrayAdapter<SkillNameAdapter> adapter = new ArrayAdapter<SkillNameAdapter>(
+                            getContext(), android.R.layout.simple_dropdown_item_1line, list);
+                    tv.setAdapter(adapter);
+                    tv.setThreshold(1);
                 }
             }
             @Override
@@ -202,6 +197,9 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                         List<User> changesList = response.body();
                         System.out.println("Response Bodyyyyy : :: : " + changesList);
                         System.out.println("Token : :: : " + response.body());
+                        Intent intent= new Intent(getActivity(), ListOfTutors.class);
+                        //intent.putParcelableArrayListExtra("userList", (ArrayList<? extends Parcelable>) userList);
+                        startActivity(intent);
                     }
                 }
                 @Override
