@@ -28,6 +28,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".MyFirebaseInstanceIDService"
+            android:enabled="false"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name" />
@@ -50,13 +59,13 @@
         <activity
             android:name=".ListOfTutors"
             android:label="@string/title_activity_list_of_tutors" />
-        <activity android:name=".TutoringLocationActivity"></activity>
+        <activity android:name=".TutoringLocationActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Settings"></activity>
+        <activity android:name=".Settings" />
     </application>
 
 </manifest>
