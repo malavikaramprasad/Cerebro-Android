@@ -181,7 +181,7 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
 
 
             SubmitQuestionAPI submitQn_api = retrofit.create(SubmitQuestionAPI.class);
-            SubmitQuestion submitQuestion = new SubmitQuestion(tag_id,description,learner_id);
+            SubmitQuestion submitQuestion = new SubmitQuestion(tag_id,description,learner_id, 0);
             submitQn_api.addQuestion(map, submitQuestion).enqueue(new Callback<List<User>>() {
                 @Override
                 public void onResponse(Call<List<User>> call, Response<List<User>> response) {
