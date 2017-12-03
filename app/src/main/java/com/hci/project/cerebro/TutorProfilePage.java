@@ -19,6 +19,10 @@ public class TutorProfilePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tutorprofilepage);
         int position=getIntent().getIntExtra("key_position",0);
+//        ArrayList<User> userList = (ArrayList<User>) getIntent().getSerializableExtra("userList");
+//        User user = userList.get(position);
+
+
 
         //retrieve the data of the specific tutor at that position
         //and populate the tutorprofilepage

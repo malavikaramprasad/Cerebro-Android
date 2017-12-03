@@ -1,23 +1,19 @@
 package com.hci.project.cerebro;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,14 +23,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Header;
 
 
 /**
@@ -194,10 +187,12 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                 public void onResponse(Call<List<User>> call, Response<List<User>> response) {
 
                     if (response.isSuccessful()) {
-                        List<User> changesList = response.body();
-                        System.out.println("Response Bodyyyyy : :: : " + changesList);
+                        ArrayList<User> userList = (ArrayList<User>) response.body();
+                        System.out.println("Response Body : :: : " + userList);
                         System.out.println("Token : :: : " + response.body());
                         Intent intent= new Intent(getActivity(), ListOfTutors.class);
+                        intent.putExtra("userList", userList);
+                        System.out.println(userList.get(0).email);
                         //intent.putParcelableArrayListExtra("userList", (ArrayList<? extends Parcelable>) userList);
                         startActivity(intent);
                     }

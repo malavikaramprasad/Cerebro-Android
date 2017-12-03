@@ -7,8 +7,6 @@
     android:layout_height="match_parent"
     tools:context="com.hci.project.cerebro.ListOfTutors">
 
-
-
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="0dp"
