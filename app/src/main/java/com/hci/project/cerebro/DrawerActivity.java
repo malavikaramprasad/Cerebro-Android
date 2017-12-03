@@ -2,9 +2,12 @@ package com.hci.project.cerebro;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -21,6 +24,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -72,6 +78,31 @@ public class DrawerActivity extends AppCompatActivity
         String email = settings.getString("Current_User_email", "defaultvalue");
         String username = fname + " " + lname;
 
+        //End
+        //Fetch user location
+        FusedLocationProviderClient mFusedLocationClient;
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            double latitude = location.getLatitude();
+                            double longitude = location.getLongitude();
+                            SharedPreferences pref = getApplicationContext().getSharedPreferences("CurrentUserLoc", 0); // 0 - for private mode
+                            SharedPreferences.Editor editor = pref.edit();
+                            //on the login store the login
+                            float f = (float)latitude;
+                            editor.putFloat("CurrentUserLat", (float)latitude);
+                            editor.putFloat("CurrentUserLong", (float)longitude);
+                            editor.commit();
+                        }
+                    }
+                });
         //End
 
     }
