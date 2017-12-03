@@ -1,12 +1,15 @@
 package com.hci.project.cerebro;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.sql.Time;
 
 /**
  * Created by Malavika Ramprasad on 11/29/2017.
  */
 
-public class User {
+public class User implements Parcelable {
     int id;
     String first_name;
     String last_name;
@@ -16,6 +19,28 @@ public class User {
     float y_coordinate;
     Time start_time;
     Time end_time;
+
+    protected User(Parcel in) {
+        id = in.readInt();
+        first_name = in.readString();
+        last_name = in.readString();
+        email = in.readString();
+        rating = in.readFloat();
+        x_coordinate = in.readFloat();
+        y_coordinate = in.readFloat();
+    }
+
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public String getFirst_name() {
         return first_name;
@@ -87,5 +112,21 @@ public class User {
 
     public void setY_coordinate(float y_coordinate) {
         this.y_coordinate = y_coordinate;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(first_name);
+        parcel.writeString(last_name);
+        parcel.writeString(email);
+        parcel.writeFloat(rating);
+        parcel.writeFloat(x_coordinate);
+        parcel.writeFloat(y_coordinate);
     }
 }
