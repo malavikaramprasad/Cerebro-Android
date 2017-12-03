@@ -2,6 +2,7 @@ package com.hci.project.cerebro;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -23,10 +24,26 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TutoringLocationActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -35,6 +52,9 @@ public class TutoringLocationActivity extends FragmentActivity implements OnMapR
     Button conf_location;
     TextView location_prompt, location_details;
     private FusedLocationProviderClient mFusedLocationClient;
+    Time starttime, endtime;
+    private double lat, lng;
+    private String sflag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +64,35 @@ public class TutoringLocationActivity extends FragmentActivity implements OnMapR
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("UserTime",0);
+        String start_time = sp.getString("StartTime", "defaultvalue");
+        String end_time = sp.getString("EndTime", "defaultvalue");
+        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        try {
+            starttime = new java.sql.Time(formatter.parse(start_time).getTime());
+            System.out.println("Start Time ::" + starttime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            endtime = new java.sql.Time(formatter.parse(start_time).getTime());
+            System.out.println("Start Time ::" + endtime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        sflag = getIntent().getStringExtra("SettingView");
+        Button location = (Button) findViewById(R.id.conf_location);
+        if(sflag == null){}
+        else
+        {
+        if(!sflag.equalsIgnoreCase("Y"))
+        {
+            location.setText("CONFIRM LOCATION");
+        }
+        else
+        {
+            location.setText("UPDATE LOCATION");
+        }}
     }
 
     //GET ADDRESS from location latitude, longitude
@@ -93,7 +141,6 @@ public class TutoringLocationActivity extends FragmentActivity implements OnMapR
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                double lat, lng;
                 lat = latLng.latitude;
                 lng = latLng.longitude;
                 MarkerOptions markerOptions = new MarkerOptions();
@@ -105,8 +152,49 @@ public class TutoringLocationActivity extends FragmentActivity implements OnMapR
                     @Override
                     public void onClick(View view) {
                         // Call Retrofit
-                        Intent intent = new Intent(TutoringLocationActivity.this, DrawerActivity.class);
-                        startActivity(intent);
+                        Gson gson = new GsonBuilder()
+                                .registerTypeAdapter(CreateUser.class, new CustomGsonAdapter.UserAdapter())
+                                .setLenient()
+                                .create();
+                        final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(BASE_URL)
+                                .addConverterFactory(GsonConverterFactory.create(gson))
+                                .build();
+
+                        SharedPreferences settings = getApplicationContext().getSharedPreferences("MyPref",0);
+                        String token = settings.getString("Current_User", "defaultvalue");
+                        Map<String, String> map = new HashMap<>();
+                        map.put("X-Authorization", token);
+
+                        UserLocAndTimeAPI update_user = retrofit.create(UserLocAndTimeAPI.class);
+                        UserLocAndTime updateloc = new UserLocAndTime(lat,lng,starttime,endtime);
+                        update_user.updateUser(map,updateloc).enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                if (response.isSuccessful()) {
+                                    User changesList = response.body();
+                                    System.out.println("Response Bodyyyyy : :: : " + changesList);
+                                    if(!sflag.equalsIgnoreCase("Y"))
+                                    {
+                                        Intent intent = new Intent(TutoringLocationActivity.this, DrawerActivity.class);
+                                        startActivity(intent);
+                                    }
+                                    else
+                                    {
+                                        Intent intent = new Intent(TutoringLocationActivity.this, Settings.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+
+                        //Intent intent = new Intent(TutoringLocationActivity.this, DrawerActivity.class);
+                       // startActivity(intent);
                     }
                 });
                 googleMap.clear();

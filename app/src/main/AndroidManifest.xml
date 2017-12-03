@@ -37,6 +37,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -48,12 +49,14 @@
         <activity android:name=".MessageFromLearner" />
         <activity
             android:name=".ListOfTutors"
-            android:label="@string/title_activity_list_of_tutors"></activity>
-        <activity android:name=".TutoringLocationActivity" >
-        </activity>
+            android:label="@string/title_activity_list_of_tutors" />
+        <activity android:name=".TutoringLocationActivity"></activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <activity android:name=".Settings"></activity>
     </application>
 
 </manifest>

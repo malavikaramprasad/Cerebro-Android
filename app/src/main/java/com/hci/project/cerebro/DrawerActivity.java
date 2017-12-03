@@ -224,9 +224,8 @@ public class DrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
+            Intent intent = new Intent(DrawerActivity.this,Settings.class);
+            startActivity(intent);
         } else if (id == R.id.nav_send) {
                 SharedPreferences myPrefs = getApplicationContext().getSharedPreferences("MyPref",0);
                 SharedPreferences.Editor editor = myPrefs.edit();
@@ -238,6 +237,7 @@ public class DrawerActivity extends AppCompatActivity
                 Intent intent = new Intent(DrawerActivity.this,
                         LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("Logout","Y");
                 startActivity(intent);
                 finish();
         }

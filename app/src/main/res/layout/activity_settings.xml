@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hci.project.cerebro.Settings">
+
+    <Button
+        android:id="@+id/skillbttn"
+        android:layout_width="376dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Change Skills and TimeSlot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/locationbttn"
+        android:layout_width="375dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Change Preferred Location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/skillbttn" />
+
+    <Button
+        android:id="@+id/backbttn"
+        android:layout_width="372dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/locationbttn" />
+
+</android.support.constraint.ConstraintLayout>

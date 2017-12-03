@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="16dp"
@@ -152,19 +151,26 @@
                 android:layout_height="wrap_content"
                 android:text="Skip" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
+            <Button
+                android:id="@+id/updateBttn"
+                android:layout_width="452dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Update" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
             <Button
                 android:id="@+id/go_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Choose Location \u25b6" />
-            </LinearLayout>
-
         </LinearLayout>
 
+    </LinearLayout>
 
 
-        </LinearLayout>
+</LinearLayout>
