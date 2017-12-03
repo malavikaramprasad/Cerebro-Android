@@ -17,9 +17,9 @@ public class SubmitQuestion {
     @SerializedName("description")
     @Expose
     String description;
-    @SerializedName("question_id")
+    @SerializedName("id")
     @Expose
-    int question_id;
+    int id;
 
     public int getTag_id() {
         return tag_id;
@@ -45,14 +45,14 @@ public class SubmitQuestion {
         this.description = description;
     }
 
-    public int getQuestion_id() { return question_id; }
+    public int getQuestion_id() { return id; }
 
-    public void setQuestion_id(int question_id) { this.question_id = question_id; }
+    public void setQuestion_id(int id) { this.id = id; }
 
-    public SubmitQuestion(int tag_id, String description, int learner_id, int question_id) {
+    public SubmitQuestion(int tag_id, String description, int learner_id, int id) {
         this.learner_id = learner_id;
         this.tag_id = tag_id;
         this.description = description;
-        this.question_id = question_id;
+        this.id = id;
     }
 }
