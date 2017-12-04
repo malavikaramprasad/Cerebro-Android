@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
     tools:context="com.hci.project.cerebro.LearnerFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -11,25 +13,38 @@
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"-->
         <!--android:text="@string/hello_blank_fragment" />-->
+    <TextView
+        android:id="@+id/topic_prompt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Select a topic and enter your doubt."
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <AutoCompleteTextView
         android:id="@+id/topic"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:hint="Search for topic"
+        android:layout_marginTop="60dp"
+        android:hint="Choose your subject"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topic_prompt"/>
 
     <EditText
         android:id="@+id/description"
-        android:layout_width="284dp"
-        android:layout_height="298dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="30dp"
+        android:padding="10dp"
         android:ems="10"
-        android:hint="What is your doubt/question?"
+        android:hint="Hi! Enter your question here!"
+        android:background="@drawable/edittextstyle"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,11 +52,12 @@
 
     <Button
         android:id="@+id/submit_question"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-
-        android:layout_marginTop="20dp"
-        android:text="Button"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_style"
+        android:text="Find me a Tutor! \u25b6"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description" />

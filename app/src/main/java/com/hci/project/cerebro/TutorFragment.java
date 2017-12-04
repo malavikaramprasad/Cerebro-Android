@@ -1,6 +1,5 @@
 package com.hci.project.cerebro;
 
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,18 +23,17 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TutorFragment extends Fragment {
-    ListView lv;
+    ListView lv_new, lv_old;
 
-
+    public static List<SubmitQuestion> accepted;
+    public static List<SubmitQuestion> pending;
     public TutorFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +58,9 @@ public class TutorFragment extends Fragment {
             public void onResponse(Call<TutorRequests> call, Response<TutorRequests> response) {
                 if (response.isSuccessful()) {
                     System.out.println("Response Requests :::" + response.body());
+                    TutorRequests requests = response.body();
+                    accepted = requests.accepted;
+                    pending = requests.pending;
                 }
             }
             public void onFailure(Call<TutorRequests> call, Throwable t){
@@ -77,9 +78,23 @@ public class TutorFragment extends Fragment {
 
         // Indicates the selected item has been checked
 
-        lv=getActivity().findViewById(R.id.listview);
 
-        lv.setItemChecked(pos, true);
+//        lv_new=getActivity().findViewById(R.id.newRequests);
+//        lv_old=getActivity().findViewById(R.id.oldRequests);
+//
+//        lv_new.setItemChecked(pos, true);
+//        lv_old.setItemChecked(pos, true);
+//
+//        //Accepted Tasks ListView
+//        ArrayList<String> ques = new ArrayList<>();
+//        ArrayList<String> uid = new ArrayList<>();
+//        String[] questions, user_ids;
+//        for (int i=0; i<accepted.size();i++){
+//            ques.add(accepted.get(i).description);
+//            uid.add(String.valueOf(accepted.get(i).id));
+//        }
+//        questions = ques.toArray(new String[ques.size()]);
+//        user_ids = uid.toArray(new String[uid.size()]);
 
         Intent intent= new Intent(getContext(), MessageFromLearner.class);
         startActivity(intent);
