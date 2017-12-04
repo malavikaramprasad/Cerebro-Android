@@ -86,7 +86,9 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                 String tag = topic.getText().toString();
                 String description = desc.getText().toString();
                 int learner_id = userId;
+                if(!tag.isEmpty() && !description.isEmpty()){
                 registerQuestion(tag, description,learner_id);
+                }
                 //listTutors();
                 Intent intent= new Intent(getActivity(), ListOfTutors.class);
             }

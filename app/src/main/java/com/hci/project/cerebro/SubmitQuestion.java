@@ -3,6 +3,8 @@ package com.hci.project.cerebro;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.sql.Time;
+
 /**
  * Created by Malavika Ramprasad on 11/29/2017.
  */
@@ -20,6 +22,15 @@ public class SubmitQuestion {
     @SerializedName("id")
     @Expose
     int id;
+    @SerializedName("tutor_accepted")
+    @Expose
+    Boolean tutor_accepted;
+    @SerializedName("start_time")
+    @Expose
+    Time start_time;
+    @SerializedName("end_time")
+    @Expose
+    Time end_time;
 
     public int getTag_id() {
         return tag_id;
@@ -48,6 +59,30 @@ public class SubmitQuestion {
     public int getQuestion_id() { return id; }
 
     public void setQuestion_id(int id) { this.id = id; }
+
+    public Time getEnd_time() {
+        return end_time;
+    }
+
+    public Time getStart_time() {
+        return start_time;
+    }
+
+    public void setEnd_time(Time end_time) {
+        this.end_time = end_time;
+    }
+
+    public void setStart_time(Time start_time) {
+        this.start_time = start_time;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     public SubmitQuestion(int tag_id, String description, int learner_id, int id) {
         this.learner_id = learner_id;

@@ -67,6 +67,16 @@ public class DrawerActivity extends AppCompatActivity
         hideLearnerItem();
         // End
 
+        //fetch device token
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("MyPref",0);
+        String token = sp.getString("Current_User", "defaultvalue");
+        int user_id = sp.getInt("Current_User_Id", 0);
+        MyFirebaseInstanceIDService id = new MyFirebaseInstanceIDService();
+        id.onCreate();
+        id.onTokenRefresh();
+        id.sendDeviceToken(token,user_id);
+        //End
+
         //fetch user details
         fetchUserDetails();
         //end
@@ -100,12 +110,15 @@ public class DrawerActivity extends AppCompatActivity
                     }
                 });
         //End
+
+
     }
     NavigationView navigationView;
 
     private void fetchUserDetails()
     {
         Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                 .setLenient()
                 .create();
         final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";

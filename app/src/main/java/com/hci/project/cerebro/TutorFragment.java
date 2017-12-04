@@ -52,7 +52,7 @@ public class TutorFragment extends Fragment {
         SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences("MyPref",0);
         String token = settings.getString("Current_User", "defaultvalue");
         Map<String, String> map = new HashMap<>();
-        map.put("X-Authorization", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidnBhbmRpMkB1aWMuZWR1IiwiZXhwIjoxNTEyMjkyODE2fQ.H0-W02QWR9XDHeOl_4IunGuvrDjGUHkGM0ZA_88ELXk");
+        map.put("X-Authorization", token);
         TutorRequestsAPI requests_api = retrofit.create(TutorRequestsAPI.class);
         requests_api.getRequests(map).enqueue(new Callback<TutorRequests>()
         {

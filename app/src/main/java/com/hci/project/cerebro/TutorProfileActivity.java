@@ -149,7 +149,48 @@ public class TutorProfileActivity extends AppCompatActivity {
                 if (!sflag.equalsIgnoreCase("Y")) {
                     new AlertDialog.Builder(this).setTitle("Warning!!").setMessage("Please enter atleast 1 skill and select your favourable time or click skip button to update later").setNeutralButton("Close", null).show();
                 } else {
-                    new AlertDialog.Builder(this).setTitle("Warning!!").setMessage("Please enter atleast 1 skill and select your favourable time").setNeutralButton("Close", null).show();
+                    if(skills.isEmpty() && startTime ==null && endTime==null){
+                        new AlertDialog.Builder(this).setTitle("Warning!!").setMessage("Please enter atleast 1 skill and select your favourable time").setNeutralButton("Close", null).show();
+                    }
+                    else
+                    {
+                        SharedPreferences settings = getApplicationContext().getSharedPreferences("MyPref", 0);
+                        String token = settings.getString("Current_User", "defaultvalue");
+                        Map<String, String> map = new HashMap<>();
+                        map.put("X-Authorization", token);
+
+                        PostSkillsAPI submitQn_api = retrofit.create(PostSkillsAPI.class);
+                        PostSkills submitQuestion = new PostSkills(skills);
+                        submitQn_api.postSkills(map, submitQuestion).enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+
+                                if (response.isSuccessful()) {
+                                    User changesList = response.body();
+                                    System.out.println("Response Bodyyyyy : :: : " + changesList);
+                                    Intent intent;
+                                    if(sflag!=null) {
+                                        if (!sflag.equalsIgnoreCase("Y")) {
+                                            intent = new Intent(TutorProfileActivity.this, TutoringLocationActivity.class);
+                                        } else {
+                                            intent = new Intent(TutorProfileActivity.this, Settings.class);
+                                        }
+                                        startActivity(intent);
+                                    }
+                                    else
+                                    {
+                                        intent = new Intent(TutorProfileActivity.this, TutoringLocationActivity.class);
+                                        startActivity(intent);
+                                    }
+
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+                    }
                 }
             }
             else
