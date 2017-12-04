@@ -1,15 +1,10 @@
 package com.hci.project.cerebro;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -20,14 +15,12 @@ import com.google.gson.GsonBuilder;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TutorProfilePage extends AppCompatActivity {
     Button request, slot1, slot2, slot3;
@@ -62,7 +55,7 @@ public class TutorProfilePage extends AppCompatActivity {
 //        cal.set(user.booked_slots.get(0).getStart_time().get);
 //        slot1.setText(String.valueOf(user.start_time));
 
-        Button sendRequest = (Button) findViewById(R.id.Request);
+        Button sendRequest = (Button) findViewById(R.id.request);
         sendRequest.setOnClickListener(new View.OnClickListener(){
 
             @Override
