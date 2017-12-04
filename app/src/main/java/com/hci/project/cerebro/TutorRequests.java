@@ -20,11 +20,18 @@ public class TutorRequests {
         this.accepted = accepted;
     }
 
+
     public List<SubmitQuestion> getAccepted() {
         return accepted;
     }
 
     public List<SubmitQuestion> getPending() {
         return pending;
+    }
+
+    public TutorRequests(List<SubmitQuestion> accepted, List<SubmitQuestion> pending)
+    {
+        this.accepted = accepted;
+        this.pending = pending;
     }
 }
