@@ -22,10 +22,10 @@ public class TutorProfilePage extends AppCompatActivity {
         setContentView(R.layout.tutorprofilepage);
         int position=getIntent().getIntExtra("key_position",0);
         ArrayList<User> userList = LearnerFragment.userList;
-        System.out.println(userList.get(0).email);
+        System.out.println(userList.get(position).email);
 
         tutor_name = findViewById(R.id.tutor_name);
-        tutor_name.setText(userList.get(0).first_name);
+        tutor_name.setText(userList.get(position).first_name);
 ;
 
         //retrieve the data of the specific tutor at that position
