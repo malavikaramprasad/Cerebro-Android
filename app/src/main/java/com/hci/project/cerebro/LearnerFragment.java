@@ -35,7 +35,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class LearnerFragment extends Fragment implements View.OnClickListener{
 
-
+    public static ArrayList<User> userList;
     public LearnerFragment() {
         // Required empty public constructor
     }
@@ -187,7 +187,7 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                 public void onResponse(Call<List<User>> call, Response<List<User>> response) {
 
                     if (response.isSuccessful()) {
-                        ArrayList<User> userList = (ArrayList<User>) response.body();
+                         userList = (ArrayList<User>) response.body();
                         System.out.println("Response Body : :: : " + userList);
                         System.out.println("Token : :: : " + response.body());
                         Intent intent= new Intent(getActivity(), ListOfTutors.class);
