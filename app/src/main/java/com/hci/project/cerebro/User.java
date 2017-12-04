@@ -18,8 +18,8 @@ public class User implements Parcelable {
     float rating;
     float x_coordinate;
     float y_coordinate;
-    Time start_time;
-    Time end_time;
+   // Time start_time;
+    //Time end_time;
     List<BookedSlot> booked_slots;
 
     protected User(Parcel in) {
@@ -88,25 +88,25 @@ public class User implements Parcelable {
         return y_coordinate;
     }
 
-    public Time getEnd_time() {
-        return end_time;
-    }
-
-    public Time getStart_time() {
-        return start_time;
-    }
-
-    public void setEnd_time(Time end_time) {
-        this.end_time = end_time;
-    }
+//    public Time getEnd_time() {
+//        return end_time;
+//    }
+//
+//    public Time getStart_time() {
+//        return start_time;
+//    }
+//
+//    public void setEnd_time(Time end_time) {
+//        this.end_time = end_time;
+//    }
 
     public void setRating(float rating) {
         this.rating = rating;
     }
 
-    public void setStart_time(Time start_time) {
-        this.start_time = start_time;
-    }
+//    public void setStart_time(Time start_time) {
+//        this.start_time = start_time;
+//    }
 
     public void setX_coordinate(float x_coordinate) {
         this.x_coordinate = x_coordinate;

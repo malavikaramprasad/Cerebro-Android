@@ -102,6 +102,7 @@ public class LearnerFragment extends Fragment implements View.OnClickListener {
 
     public void getSkills() {
         Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                 .setLenient()
                 .create();
         final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
@@ -167,6 +168,7 @@ public class LearnerFragment extends Fragment implements View.OnClickListener {
         }
         if (!TextUtils.isEmpty(tag) && !TextUtils.isEmpty(description)) {
             Gson gson = new GsonBuilder()
+                    .setDateFormat("yyyy-MM-dd'T'HH:mm")
                     .registerTypeAdapter(CreateUser.class, new CustomGsonAdapter.UserAdapter())
                     .setLenient()
                     .create();

@@ -120,7 +120,7 @@ public class DrawerActivity extends AppCompatActivity
     private void fetchUserDetails()
     {
         Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                 .setLenient()
                 .create();
         final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
@@ -150,16 +150,16 @@ public class DrawerActivity extends AppCompatActivity
                     float rating = response.body().rating;
                     float x_coordinate = response.body().x_coordinate;
                     float y_coordinate = response.body().y_coordinate;
-                    Time start_time = response.body().start_time;
-                    Time end_time = response.body().end_time;
+//                    Time start_time = response.body().start_time;
+//                    Time end_time = response.body().end_time;
                     String start_time_string =" ";
                     String end_time_string = " ";
-                    if(start_time != null){
-                        start_time_string = start_time.toString();
-                    }
-                    if(end_time != null){
-                        end_time_string = end_time.toString();
-                    }
+//                    if(start_time != null){
+//                        start_time_string = start_time.toString();
+//                    }
+//                    if(end_time != null){
+//                        end_time_string = end_time.toString();
+//                    }
                     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
                     SharedPreferences.Editor editor = pref.edit();
                     //on the login store the login

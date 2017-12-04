@@ -109,6 +109,7 @@ public class TutorProfileActivity extends AppCompatActivity {
 
     private void updateUserSkills(){
         Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                 .registerTypeAdapter(CreateUser.class, new CustomGsonAdapter.UserAdapter())
                 .setLenient()
                 .create();

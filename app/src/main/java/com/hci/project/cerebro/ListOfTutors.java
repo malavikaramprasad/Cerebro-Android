@@ -104,20 +104,23 @@ public class ListOfTutors extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_tutors);
 
-        LinearLayout list_of_tutors = findViewById(R.id.list_of_tutors);
-        LinearLayout loadingPanel = findViewById(R.id.loadingPanel);
-        list_of_tutors.setVisibility(View.GONE);
-        try
-        {
-            Thread.sleep(2000);
-        }
-        catch(InterruptedException ex)
-        {
-            Thread.currentThread().interrupt();
-        }
-
-        list_of_tutors.setVisibility(View.VISIBLE);
-        loadingPanel.setVisibility(View.GONE);
+//        View list_of_tutors = findViewById(R.id.navigation);
+//        ListView loadingPanel = findViewById(R.id.listview);
+////        list_of_tutors.setVisibility(LinearLayout.GONE);
+////        loadingPanel.setVisibility(LinearLayout.VISIBLE);
+//        list_of_tutors.setVisibility(View.GONE);
+//        loadingPanel.setVisibility(View.GONE);
+//        try
+//        {
+//            Thread.sleep(2000);
+//        }
+//        catch(InterruptedException ex)
+//        {
+//            Thread.currentThread().interrupt();
+//        }
+//
+//        list_of_tutors.setVisibility(View.VISIBLE);
+//        loadingPanel.setVisibility(View.VISIBLE);
 
         ListView lv = (ListView) findViewById(R.id.listview);
         String[] tutors = getResources().getStringArray(R.array.Tutors);

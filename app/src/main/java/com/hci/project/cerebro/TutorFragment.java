@@ -40,6 +40,7 @@ public class TutorFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Fetch the requests of current user
         Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                 .setLenient()
                 .create();
         final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";

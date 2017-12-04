@@ -60,52 +60,6 @@ public class TutorProfilePage extends AppCompatActivity {
         //and populate the tutorprofilepage
 //        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
 //        cal.set(user.booked_slots.get(0).getStart_time().get);
-//        slot1.setText(String.valueOf(user.start_time));
-
-        Button sendRequest = (Button) findViewById(R.id.Request);
-        sendRequest.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View rootView) {
-                SharedPreferences sp = getApplication().getSharedPreferences("", 0);
-                String deviceToken = sp.getString("", "");
-
-                Gson gson = new GsonBuilder()
-                        .setLenient()
-                        .create();
-                final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(BASE_URL)
-                        .build();
-
-                SharedPreferences settings = getApplication().getApplicationContext().getSharedPreferences("MyPref",0);
-                String usertoken = settings.getString("Current_User", "defaultvalue");
-                int userId = 2; // Need to fetch later
-                Time st = new Time(503000);
-                Time et = new Time(2333000);
-
-                Map<String, String> map = new HashMap<>();
-                map.put("X-Authorization", usertoken);
-
-                RequestTutorAPI reqtutor_api = retrofit.create(RequestTutorAPI.class);
-                RequestTutor requestTutor = new RequestTutor(userId,st,et);
-                reqtutor_api.reqTutor(map,userId,requestTutor).enqueue(new Callback<SubmitQuestion>()
-                {
-                    @Override
-                    public void onResponse(Call<SubmitQuestion> call, Response<SubmitQuestion> response) {
-                        if (response.isSuccessful()) {
-                            System.out.println("Request Submitted :: " + response.body());
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<SubmitQuestion> call, Throwable t){
-                        t.printStackTrace();}
-                });
-
-
-
-            }
-        });
-
+//        slot1.setText(String.valueOf(user.start_time))
         }
 }
