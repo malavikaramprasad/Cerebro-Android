@@ -75,7 +75,7 @@ public class TutoringLocationActivity extends FragmentActivity implements OnMapR
             e.printStackTrace();
         }
         try {
-            endtime = new java.sql.Time(formatter.parse(start_time).getTime());
+            endtime = new java.sql.Time(formatter.parse(end_time).getTime());
             System.out.println("Start Time ::" + endtime);
         } catch (ParseException e) {
             e.printStackTrace();
