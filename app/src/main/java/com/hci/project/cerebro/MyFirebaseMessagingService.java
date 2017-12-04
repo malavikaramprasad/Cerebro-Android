@@ -43,7 +43,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }
 
         }
-        createNotification(remoteMessage.getData().get("message"));
+//        System.out.println("Message Object :" + remoteMessage.getData().get("question"));
+        createNotification(remoteMessage.getData().get("message"), remoteMessage.getData().get("question"));
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
@@ -52,8 +53,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
     }
-    private void createNotification( String messageBody) {
+    private void createNotification( String messageBody, String obj) {
         Intent intent = new Intent( this , DrawerActivity. class );
+        Bundle bundle = new Bundle();
+        bundle.putString("Question", obj);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("PushNotification","Y");
         PendingIntent resultIntent = PendingIntent.getActivity( this , 0, intent,

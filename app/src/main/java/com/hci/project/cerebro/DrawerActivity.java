@@ -59,6 +59,8 @@ public class DrawerActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         // Start - Defaulting the application with Learner fragment -
+
+
         LearnerFragment fragment1 = new LearnerFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
