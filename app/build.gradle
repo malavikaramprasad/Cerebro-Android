@@ -4,6 +4,7 @@ android {
     compileSdkVersion 27
     buildToolsVersion '26.0.2'
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.hci.project.cerebro"
         minSdkVersion 24
         targetSdkVersion 27

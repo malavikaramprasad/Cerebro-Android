@@ -15,25 +15,34 @@
         android:id="@+id/intro_sin_sup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="casual"
         android:text="@string/intro_sin_sup"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/button_intro_sup"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="66dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_intro_sup" />
+        android:background="@drawable/rounded_button"
+        android:fontFamily="casual"
+        android:text="@string/button_intro_sup"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/button_intro_sin"
+        android:layout_width="wrap_content"
+        android:layout_height="49dp"
         android:layout_marginTop="66dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_intro_sin" />
+        android:background="@drawable/rounded_button"
+        android:fontFamily="casual"
+        android:text="@string/button_intro_sin"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 
 </LinearLayout>
