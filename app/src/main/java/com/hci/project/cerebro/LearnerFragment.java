@@ -190,7 +190,7 @@ public class LearnerFragment extends Fragment implements View.OnClickListener {
                         System.out.println("Response Body : :: : " + userList);
                         System.out.println("Token : :: : " + response.body());
                         Intent intent = new Intent(getActivity(), ListOfTutors.class);
-                        intent.putExtra("userList", userList);
+//                        intent.putExtra("userList", userList);
                         System.out.println(userList.get(0).email);
                         //intent.putParcelableArrayListExtra("userList", (ArrayList<? extends Parcelable>) userList);
                         startActivity(intent);

@@ -12,7 +12,6 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,22 +79,22 @@ public class TutorFragment extends Fragment {
         // Indicates the selected item has been checked
 
 
-        lv_new=getActivity().findViewById(R.id.newRequests);
-        lv_old=getActivity().findViewById(R.id.oldRequests);
-
-        lv_new.setItemChecked(pos, true);
-        lv_old.setItemChecked(pos, true);
-
-        //Accepted Tasks ListView
-        ArrayList<String> ques = new ArrayList<>();
-        ArrayList<String> uid = new ArrayList<>();
-        String[] questions, user_ids;
-        for (int i=0; i<accepted.size();i++){
-            ques.add(accepted.get(i).description);
-            uid.add(String.valueOf(accepted.get(i).id));
-        }
-        questions = ques.toArray(new String[ques.size()]);
-        user_ids = uid.toArray(new String[uid.size()]);
+//        lv_new=getActivity().findViewById(R.id.newRequests);
+//        lv_old=getActivity().findViewById(R.id.oldRequests);
+//
+//        lv_new.setItemChecked(pos, true);
+//        lv_old.setItemChecked(pos, true);
+//
+//        //Accepted Tasks ListView
+//        ArrayList<String> ques = new ArrayList<>();
+//        ArrayList<String> uid = new ArrayList<>();
+//        String[] questions, user_ids;
+//        for (int i=0; i<accepted.size();i++){
+//            ques.add(accepted.get(i).description);
+//            uid.add(String.valueOf(accepted.get(i).id));
+//        }
+//        questions = ques.toArray(new String[ques.size()]);
+//        user_ids = uid.toArray(new String[uid.size()]);
 
         Intent intent= new Intent(getContext(), MessageFromLearner.class);
         startActivity(intent);

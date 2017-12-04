@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -102,6 +103,21 @@ public class ListOfTutors extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_tutors);
+
+        LinearLayout list_of_tutors = findViewById(R.id.list_of_tutors);
+        LinearLayout loadingPanel = findViewById(R.id.loadingPanel);
+        list_of_tutors.setVisibility(View.GONE);
+        try
+        {
+            Thread.sleep(2000);
+        }
+        catch(InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
+        }
+
+        list_of_tutors.setVisibility(View.VISIBLE);
+        loadingPanel.setVisibility(View.GONE);
 
         ListView lv = (ListView) findViewById(R.id.listview);
         String[] tutors = getResources().getStringArray(R.array.Tutors);
