@@ -175,14 +175,18 @@ public class TutoringLocationActivity extends FragmentActivity implements OnMapR
                                 if (response.isSuccessful()) {
                                     User changesList = response.body();
                                     System.out.println("Response Bodyyyyy : :: : " + changesList);
-                                    if(!sflag.equalsIgnoreCase("Y"))
-                                    {
-                                        Intent intent = new Intent(TutoringLocationActivity.this, DrawerActivity.class);
-                                        startActivity(intent);
+                                    if(sflag != null) {
+                                        if (!sflag.equalsIgnoreCase("Y")) {
+                                            Intent intent = new Intent(TutoringLocationActivity.this, DrawerActivity.class);
+                                            startActivity(intent);
+                                        } else {
+                                            Intent intent = new Intent(TutoringLocationActivity.this, Settings.class);
+                                            startActivity(intent);
+                                        }
                                     }
                                     else
                                     {
-                                        Intent intent = new Intent(TutoringLocationActivity.this, Settings.class);
+                                        Intent intent = new Intent(TutoringLocationActivity.this, DrawerActivity.class);
                                         startActivity(intent);
                                     }
                                 }

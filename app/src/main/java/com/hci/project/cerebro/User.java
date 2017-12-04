@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.sql.Time;
+import java.util.List;
 
 /**
  * Created by Malavika Ramprasad on 11/29/2017.
@@ -19,6 +20,7 @@ public class User implements Parcelable {
     float y_coordinate;
     Time start_time;
     Time end_time;
+    List<BookedSlot> booked_slots;
 
     protected User(Parcel in) {
         id = in.readInt();
@@ -112,6 +114,14 @@ public class User implements Parcelable {
 
     public void setY_coordinate(float y_coordinate) {
         this.y_coordinate = y_coordinate;
+    }
+
+    public List<BookedSlot> getSlots() {
+        return booked_slots;
+    }
+
+    public void setSlots(List<BookedSlot> booked_slots) {
+        this.booked_slots = booked_slots;
     }
 
     @Override

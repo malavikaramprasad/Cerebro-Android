@@ -43,6 +43,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LearnerFragment.LearnerListener {
 
+    public static double latitude;
+    public static double longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,20 +94,12 @@ public class DrawerActivity extends AppCompatActivity
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
-                            double latitude = location.getLatitude();
-                            double longitude = location.getLongitude();
-                            SharedPreferences pref = getApplicationContext().getSharedPreferences("CurrentUserLoc", 0); // 0 - for private mode
-                            SharedPreferences.Editor editor = pref.edit();
-                            //on the login store the login
-                            float f = (float)latitude;
-                            editor.putFloat("CurrentUserLat", (float)latitude);
-                            editor.putFloat("CurrentUserLong", (float)longitude);
-                            editor.commit();
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
                         }
                     }
                 });
         //End
-
     }
     NavigationView navigationView;
 
