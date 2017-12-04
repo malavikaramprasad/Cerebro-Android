@@ -33,9 +33,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LearnerFragment extends Fragment implements View.OnClickListener{
+public class LearnerFragment extends Fragment implements View.OnClickListener {
 
     public static ArrayList<User> userList;
+
     public LearnerFragment() {
         // Required empty public constructor
     }
@@ -50,19 +51,20 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
     View rootView;
     public final String[] skillNames = new String[10];
     public final int[] skillID = new int[10];
-    String token, fname, lname, start_time, end_time ;
+    String token, fname, lname, start_time, end_time;
     int userId;
     float rating, x_coordinate, y_coordinate;
+    public static String asked_topic;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.fragment_learner, container,false);
+        rootView = inflater.inflate(R.layout.fragment_learner, container, false);
         getSkills();
         btn = (Button) rootView.findViewById(R.id.submit_question);
-        SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences("MyPref",0);
+        SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences("MyPref", 0);
         token = settings.getString("Current_User", "defaultvalue");
         fname = settings.getString("Current_User_fName", "defaultvalue");
         lname = settings.getString("Current_User_lName", "defaultvalue");
@@ -70,10 +72,10 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
         rating = settings.getFloat("Current_User_rating", 0);
         x_coordinate = settings.getFloat("Current_User_x_coordinate", 0);
         y_coordinate = settings.getFloat("Current_User_y_coordinate", 0);
-        start_time = settings.getString("Current_User_starttime","defaultValue");
-        end_time = settings.getString("Current_User_endtime","defaultvalue");
+        start_time = settings.getString("Current_User_starttime", "defaultValue");
+        end_time = settings.getString("Current_User_endtime", "defaultvalue");
 
-        btn.setOnClickListener(new View.OnClickListener(){
+        btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View rootView) {
@@ -84,19 +86,19 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                 EditText topic = rv.findViewById(R.id.topic);
                 EditText desc = rv.findViewById(R.id.description);
                 String tag = topic.getText().toString();
+                asked_topic = tag;
                 String description = desc.getText().toString();
                 int learner_id = userId;
-                registerQuestion(tag, description,learner_id);
+                registerQuestion(tag, description, learner_id);
                 //listTutors();
-                Intent intent= new Intent(getActivity(), ListOfTutors.class);
+                Intent intent = new Intent(getActivity(), ListOfTutors.class);
             }
         });
         return rootView;
     }
 
 
-    public void getSkills()
-    {
+    public void getSkills() {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -106,7 +108,7 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-        SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences("MyPref",0);
+        SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences("MyPref", 0);
         String token = settings.getString("Current_User", "defaultvalue");
 
         Map<String, String> map = new HashMap<>();
@@ -115,8 +117,7 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
 
         SkillAPI skill_api = retrofit.create(SkillAPI.class);
 
-        skill_api.getSkills(map).enqueue(new Callback<List<Skill>>()
-        {
+        skill_api.getSkills(map).enqueue(new Callback<List<Skill>>() {
             @Override
             public void onResponse(Call<List<Skill>> call, Response<List<Skill>> response) {
                 if (response.isSuccessful()) {
@@ -142,28 +143,27 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
                     tv.setThreshold(1);
                 }
             }
+
             @Override
-            public void onFailure(Call<List<Skill>> call, Throwable t){
-                t.printStackTrace();}
+            public void onFailure(Call<List<Skill>> call, Throwable t) {
+                t.printStackTrace();
+            }
         });
     }
 
-
-    public void registerQuestion(String tag, String description, int learner_id)
-    {
-        int tag_id=0;
-        for(int i=0;i<skillNames.length;i++)
-        {
+    public void registerQuestion(String tag, String description, int learner_id) {
+        int tag_id = 0;
+        for (int i = 0; i < skillNames.length; i++) {
             String currentSkill = skillNames[i];
             System.out.println("Tag Name :: " + currentSkill);
-            if(currentSkill.equalsIgnoreCase(tag)){
+            if (currentSkill.equalsIgnoreCase(tag)) {
                 System.out.println("Tag Name :: " + skillNames[i]);
                 int currTag = skillID[i];
                 tag_id = currTag;
                 break;
             }
         }
-        if(!TextUtils.isEmpty(tag) && !TextUtils.isEmpty(description)) {
+        if (!TextUtils.isEmpty(tag) && !TextUtils.isEmpty(description)) {
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(CreateUser.class, new CustomGsonAdapter.UserAdapter())
                     .setLenient()
@@ -179,24 +179,24 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
             map.put("X-Authorization", token);
 
 
-
             SubmitQuestionAPI submitQn_api = retrofit.create(SubmitQuestionAPI.class);
-            SubmitQuestion submitQuestion = new SubmitQuestion(tag_id,description,learner_id,0);
+            SubmitQuestion submitQuestion = new SubmitQuestion(tag_id, description, learner_id, 0);
             submitQn_api.addQuestion(map, submitQuestion).enqueue(new Callback<List<User>>() {
                 @Override
                 public void onResponse(Call<List<User>> call, Response<List<User>> response) {
 
                     if (response.isSuccessful()) {
-                         userList = (ArrayList<User>) response.body();
+                        userList = (ArrayList<User>) response.body();
                         System.out.println("Response Body : :: : " + userList);
                         System.out.println("Token : :: : " + response.body());
-                        Intent intent= new Intent(getActivity(), ListOfTutors.class);
+                        Intent intent = new Intent(getActivity(), ListOfTutors.class);
                         intent.putExtra("userList", userList);
                         System.out.println(userList.get(0).email);
                         //intent.putParcelableArrayListExtra("userList", (ArrayList<? extends Parcelable>) userList);
                         startActivity(intent);
                     }
                 }
+
                 @Override
                 public void onFailure(Call<List<User>> call, Throwable t) {
                     t.printStackTrace();
@@ -205,7 +205,7 @@ public class LearnerFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    public void onClick(View v){
+    public void onClick(View v) {
         Button submitQuestion = getActivity().findViewById(R.id.submit_question);
         submitQuestion.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

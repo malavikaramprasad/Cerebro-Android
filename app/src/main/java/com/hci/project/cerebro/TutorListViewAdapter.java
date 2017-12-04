@@ -47,18 +47,15 @@ public class TutorListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        LayoutInflater inflater =  context.getLayoutInflater();
+        LayoutInflater inflater = context.getLayoutInflater();
 
-        if (convertView == null)
-        {
+        if (convertView == null) {
             convertView = inflater.inflate(R.layout.list_item, null);
             holder = new ViewHolder();
             holder.txtViewTitle = (TextView) convertView.findViewById(R.id.row_element_name);
             holder.txtViewDescription = (TextView) convertView.findViewById(R.id.row_element_rating);
             convertView.setTag(holder);
-        }
-        else
-        {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
 

@@ -13,8 +13,8 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -31,11 +31,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class TutorFragment extends Fragment {
     ListView lv;
 
-
+    public static ArrayList accepted;
+    public static ArrayList pending;
     public TutorFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +60,9 @@ public class TutorFragment extends Fragment {
             public void onResponse(Call<TutorRequests> call, Response<TutorRequests> response) {
                 if (response.isSuccessful()) {
                     System.out.println("Response Requests :::" + response.body());
+                    TutorRequests requests = response.body();
+                    accepted = (ArrayList) requests.accepted;
+                    pending = (ArrayList) requests.pending;
                 }
             }
             public void onFailure(Call<TutorRequests> call, Throwable t){
