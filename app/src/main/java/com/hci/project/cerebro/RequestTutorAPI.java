@@ -15,5 +15,5 @@ import retrofit2.http.Path;
 
 public interface RequestTutorAPI {
     @PUT("questions/{id}/request_tutor")
-    Call<SubmitQuestion> reqTutor(@HeaderMap Map<String, String> headers, @Path("id") int id, RequestTutor tutorObj);
+    Call<SubmitQuestion> reqTutor(@HeaderMap Map<String, String> headers, @Path("id") int id, @Body RequestTutor tutorObj);
 }

@@ -21,6 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TutorProfilePage extends AppCompatActivity {
     Button request, slot1, slot2, slot3;
@@ -70,19 +71,19 @@ public class TutorProfilePage extends AppCompatActivity {
                 final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create(gson))
                         .build();
 
                 SharedPreferences settings = getApplication().getApplicationContext().getSharedPreferences("MyPref",0);
                 String usertoken = settings.getString("Current_User", "defaultvalue");
                 int userId = user.id; // Need to fetch later
-                Time st = new Time(503000);
-                Time et = new Time(2333000);
+                Time start_time = new Time(503000837);
+                Time end_time = new Time(233300077);
 
                 Map<String, String> map = new HashMap<>();
                 map.put("X-Authorization", usertoken);
-
                 RequestTutorAPI reqtutor_api = retrofit.create(RequestTutorAPI.class);
-                RequestTutor requestTutor = new RequestTutor(userId,st,et);
+                RequestTutor requestTutor = new RequestTutor(userId,start_time,end_time);
                 reqtutor_api.reqTutor(map,userId,requestTutor).enqueue(new Callback<SubmitQuestion>()
                 {
                     @Override
