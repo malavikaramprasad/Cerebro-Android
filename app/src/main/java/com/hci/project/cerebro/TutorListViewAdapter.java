@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 /**
  * Created by Tejas Sarma on 12/3/2017.
  */
@@ -14,24 +16,22 @@ import android.widget.TextView;
 public class TutorListViewAdapter extends BaseAdapter {
 
     Activity context;
-    String title[];
-    String description[];
+    List<SubmitQuestion> questions;
 
-    public TutorListViewAdapter(Activity context, String[] title, String[] description) {
+    public TutorListViewAdapter(Activity context, List<SubmitQuestion> questions) {
         super();
         this.context = context;
-        this.title = title;
-        this.description = description;
+        this.questions = questions;
     }
 
     @Override
     public int getCount() {
-        return title.length;
+        return questions.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return questions.get(i);
     }
 
     @Override
@@ -59,8 +59,8 @@ public class TutorListViewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.txtViewTitle.setText(title[position]);
-        holder.txtViewDescription.setText(description[position]);
+//        holder.txtViewTitle.setText(title[position]);
+        holder.txtViewDescription.setText(questions.get(position).getDescription());
 
         return convertView;
     }

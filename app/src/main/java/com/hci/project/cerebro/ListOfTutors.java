@@ -34,7 +34,7 @@ public class ListOfTutors extends AppCompatActivity {
 
                     String[] names_list_dist = names.toArray(new String[userList.size()]);
                     String[] rating_list_dist = ratings.toArray(new String[userList.size()]);
-                    adapter1 = new TutorListViewAdapter(ListOfTutors.this, names_list_dist, rating_list_dist);
+//                    adapter1 = new TutorListViewAdapter(ListOfTutors.this, names_list_dist, rating_list_dist);
                     lv.setAdapter(adapter1);
                     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override

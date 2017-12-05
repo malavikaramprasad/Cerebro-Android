@@ -62,10 +62,10 @@ public class TutorFragment extends Fragment {
         String[] questions = new String[]{"Request for HCI", "Request for HCI", "Request for HCI", "Request for HCI"};
         ques.addAll(Arrays.asList(questions) );
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, ques);
+//        TutorListViewAdapter adapter = new TutorListViewAdapter(getActivity(), android.R.layout.simple_list_item_1, ques);
         System.out.println(questions.length);
-        lv_new.setAdapter(adapter);
-        lv_old.setAdapter(adapter);
+//        lv_new.setAdapter(adapter);
+//        lv_old.setAdapter(adapter);
         // Fetch the requests of current user
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
@@ -90,6 +90,11 @@ public class TutorFragment extends Fragment {
                     TutorRequests requests = response.body();
                     accepted = requests.accepted;
                     pending = requests.pending;
+
+                    TutorListViewAdapter adapterAccepted = new TutorListViewAdapter(getActivity(), accepted);
+                    TutorListViewAdapter adapterPending = new TutorListViewAdapter(getActivity(), pending);
+                    lv_new.setAdapter(adapterAccepted);
+                    lv_old.setAdapter(adapterPending);
                 }
             }
             public void onFailure(Call<TutorRequests> call, Throwable t){
