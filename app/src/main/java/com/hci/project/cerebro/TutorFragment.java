@@ -115,6 +115,22 @@ public class TutorFragment extends Fragment {
                             startActivity(intent);
                         }
                     });
+                    lv_new.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                            Intent intent = new Intent(getActivity().getApplicationContext(), MessageFromLearner.class);
+                            //sending the position of the tutor selected
+                            //to the tutor profile activity
+                            view.getId();
+//                            view.ge
+                            SubmitQuestion lQuestion = (SubmitQuestion) lv_new.getItemAtPosition(i);
+
+                            intent.putExtra("questionPos", i );
+                            intent.putExtra("questionType", "accepted");
+                            startActivity(intent);
+                        }
+                    });
                 }
             }
             public void onFailure(Call<TutorRequests> call, Throwable t){
