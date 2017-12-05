@@ -110,7 +110,7 @@ public class TutorFragment extends Fragment {
 //                            view.ge
                             SubmitQuestion lQuestion = (SubmitQuestion) lv_old.getItemAtPosition(i);
 
-                            intent.putExtra("questionPos", i );
+                            intent.putExtra("question_id", lQuestion.getId() );
                             intent.putExtra("questionType", "pending");
                             startActivity(intent);
                         }
@@ -126,7 +126,7 @@ public class TutorFragment extends Fragment {
 //                            view.ge
                             SubmitQuestion lQuestion = (SubmitQuestion) lv_new.getItemAtPosition(i);
 
-                            intent.putExtra("questionPos", i );
+                            intent.putExtra("question_id", lQuestion.getId() );
                             intent.putExtra("questionType", "accepted");
                             startActivity(intent);
                         }

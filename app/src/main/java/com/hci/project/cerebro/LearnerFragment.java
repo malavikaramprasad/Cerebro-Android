@@ -51,8 +51,8 @@ public class LearnerFragment extends Fragment implements View.OnClickListener {
 
     Button btn;
     View rootView;
-    public final String[] skillNames = new String[10];
-    public final int[] skillID = new int[10];
+    public final String[] skillNames = new String[200];
+    public final int[] skillID = new int[200];
     String token, fname, lname, start_time, end_time;
     int userId;
     float rating, x_coordinate, y_coordinate;

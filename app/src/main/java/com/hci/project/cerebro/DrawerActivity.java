@@ -277,7 +277,7 @@ public class DrawerActivity extends AppCompatActivity
         } else if (id == R.id.nav_rating) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            //fragmentTransaction.replace(R.id.frag_frame, fragment3);
+            fragmentTransaction.replace(R.id.frag_frame, fragment3);
             //hideTutorItem();
             fragmentTransaction.commit();
 

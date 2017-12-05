@@ -1,12 +1,16 @@
 package com.hci.project.cerebro;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,10 +29,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LearnerDashboard extends Fragment {
+public class LearnerDashboard extends android.support.v4.app.Fragment {
 
     public static List<SubmitQuestion> accepted;
     public static List<SubmitQuestion> pending;
+    ListView lv_new, lv_old;
 
     public LearnerDashboard() {
         // Required empty public constructor
@@ -38,6 +43,10 @@ public class LearnerDashboard extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_learner_dashboard, container, false);
+
+        lv_new = view.findViewById(R.id.newRequests);
+        lv_old = view.findViewById(R.id.oldRequests);
         // Inflate the layout for this fragment
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
@@ -63,13 +72,35 @@ public class LearnerDashboard extends Fragment {
                     accepted = requests.accepted;
                     pending = requests.pending;
                 }
+                if(accepted.size() == 0) {
+                    TextView textView1 = getActivity().findViewById(R.id.textView2);
+                    textView1.setText("No New Requests");
+                    ListView lv = getActivity().findViewById(R.id.newRequests);
+                    lv.setVisibility(View.GONE);
+                }
+                else{
+                    TutorListViewAdapter adapterAccepted = new TutorListViewAdapter(getActivity(), accepted);
+                    lv_new.setAdapter(adapterAccepted);
+                }
+                lv_new.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        Intent intent = new Intent(getActivity().getApplicationContext(), Rating.class);
+                        view.getId();
+                        SubmitQuestion lQuestion = (SubmitQuestion) lv_new.getItemAtPosition(i);
+                        intent.putExtra("question_id", lQuestion.getId() );
+                        intent.putExtra("questionType","accepted");
+                        startActivity(intent);
+                    }
+                });
             }
             public void onFailure(Call<TutorRequests> call, Throwable t){
                 t.printStackTrace();}
         });
 
 
-        return inflater.inflate(R.layout.fragment_tutor_dashboard, container, false);
+        return view;
 
     }
 

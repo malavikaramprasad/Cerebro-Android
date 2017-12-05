@@ -31,35 +31,18 @@ public class MessageFromLearner extends AppCompatActivity {
 
         Intent intent = getIntent();
         Log.i("Question Id", "This is the questionId : " + intent.getStringExtra("question_id"));
-        int question_pos = intent.getIntExtra("questionPos", 0);
+        int question_id = intent.getIntExtra("question_id", 0);
         String question_type = intent.getStringExtra("questionType");
-        SubmitQuestion qn;
 
-        if (question_type.equals("pending")) {
-            if (question_pos <= 0)
-                qn = TutorFragment.pending.get(0);
-            else
-                qn = TutorFragment.pending.get(question_pos);
-        } else {
-            if (question_pos <= 0)
-                qn = TutorFragment.accepted.get(0);
-            else
-                qn = TutorFragment.accepted.get(question_pos);
-        }
-
-        TextView view9 = findViewById(R.id.textView9);
-        TextView view10 = findViewById(R.id.textView10);
-
-        view10.setText(qn.getDescription());
-
-
-        Button bttnAccept = (Button) findViewById(R.id.button5);
-        Button bttnReject = (Button) findViewById(R.id.button6);
+        Gson gson1 = new GsonBuilder()
+                .setLenient()
+                .create();
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(CreateUser.class, new CustomGsonAdapter.UserAdapter())
                 .setLenient()
                 .create();
+
         final String BASE_URL = "http://cerebro-api.herokuapp.com/api/";
         final Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -72,6 +55,35 @@ public class MessageFromLearner extends AppCompatActivity {
 
         final Map<String, String> map = new HashMap<>();
         map.put("X-Authorization", token);
+
+        final Retrofit retrofit1 = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        GetQuestionAPI reqApi= retrofit1.create(GetQuestionAPI.class);
+        reqApi.getQuestionDetails(map,question_id).enqueue(new Callback<SubmitQuestion>()
+        {
+            @Override
+            public void onResponse(Call<SubmitQuestion> call, Response<SubmitQuestion> response)
+            {
+                if (response.isSuccessful()) {
+                    System.out.println("response from accpt:" + response.body());
+
+                }
+            }
+            public void onFailure(Call<SubmitQuestion> call, Throwable t)
+            {
+                t.printStackTrace();
+            }
+        });
+
+        Button bttnAccept = (Button) findViewById(R.id.button5);
+        Button bttnReject = (Button) findViewById(R.id.button6);
+
+
+
+
 
         bttnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
