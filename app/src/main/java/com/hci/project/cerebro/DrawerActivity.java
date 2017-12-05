@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -60,20 +61,22 @@ public class DrawerActivity extends AppCompatActivity
         toggle.syncState();
         // Start - Defaulting the application with Learner fragment -
         String flag = getIntent().getStringExtra("RequestDecision");
-        if(!(flag == "Y")) {
+        if(flag == null) {
             LearnerFragment fragment1 = new LearnerFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.add(R.id.frag_frame, fragment1);
             fragmentTransaction.commit();
-            hideLearnerItem();
+            hideTutorItem();
+
         } else {
-            TutorFragment fragment1 = new TutorFragment();
+            LearnerFragment fragment1 = new LearnerFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.add(R.id.frag_frame, fragment1);
             fragmentTransaction.commit();
             hideTutorItem();
+            Toast.makeText(getApplicationContext(),"Your request has been sent to the Tutor. You will get a notifictaion if the tutor accepts your request", Toast.LENGTH_LONG).show();
         }
         // End
 
