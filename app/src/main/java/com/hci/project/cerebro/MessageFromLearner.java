@@ -30,8 +30,8 @@ public class MessageFromLearner extends AppCompatActivity {
         setContentView(R.layout.activity_message_from_learner);
 
         Intent intent = getIntent();
-        Log.i("Question Id", "This is the questionId : " + intent.getStringExtra("question_id"));
-        int question_id = intent.getIntExtra("question_id", 0);
+        //Log.i("Question Id", "This is the questionId : " + intent.getStringExtra("question_id"));
+        final int question_id = intent.getIntExtra("question_id", 0);
         String question_type = intent.getStringExtra("questionType");
 
         Gson gson1 = new GsonBuilder()
@@ -69,6 +69,8 @@ public class MessageFromLearner extends AppCompatActivity {
             {
                 if (response.isSuccessful()) {
                     System.out.println("response from accpt:" + response.body());
+                    TextView textView10 = findViewById(R.id.textView10);
+                    textView10.setText(response.body().getDescription());
 
                 }
             }
@@ -89,7 +91,7 @@ public class MessageFromLearner extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 RequestDecisionAPI reqApi= retrofit.create(RequestDecisionAPI.class);
-                reqApi.sendDecision(map,user_id,"accept").enqueue(new Callback<SubmitQuestion>()
+                reqApi.sendDecision(map,question_id,"accept").enqueue(new Callback<SubmitQuestion>()
                     {
                         @Override
                         public void onResponse(Call<SubmitQuestion> call, Response<SubmitQuestion> response)
@@ -97,7 +99,7 @@ public class MessageFromLearner extends AppCompatActivity {
                             if (response.isSuccessful()) {
                                 System.out.println("response from accpt:" + response.body());
                                 Intent intent = new Intent(MessageFromLearner.this, DrawerActivity.class);
-                                intent.putExtra("RequestDecision","Y");
+                                intent.putExtra("RequestDecision","accept");
                                 startActivity(intent);
                             }
                         }
@@ -112,7 +114,7 @@ public class MessageFromLearner extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 RequestDecisionAPI reqApi= retrofit.create(RequestDecisionAPI.class);
-                reqApi.sendDecision(map,user_id,"reject").enqueue(new Callback<SubmitQuestion>()
+                reqApi.sendDecision(map,question_id,"reject").enqueue(new Callback<SubmitQuestion>()
                 {
                     @Override
                     public void onResponse(Call<SubmitQuestion> call, Response<SubmitQuestion> response)
@@ -120,7 +122,7 @@ public class MessageFromLearner extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             System.out.println("response from accpt:" + response.body());
                             Intent intent = new Intent(MessageFromLearner.this, DrawerActivity.class);
-                            intent.putExtra("RequestDecision","Y");
+                            intent.putExtra("RequestDecision","reject");
                             startActivity(intent);
                         }
                     }

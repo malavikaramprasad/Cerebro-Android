@@ -260,7 +260,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         EditText fn = findViewById(R.id.first_name);
         String firstname = fn.getText().toString();
         EditText ln = findViewById(R.id.last_name);
-        String lastname = fn.getText().toString();
+        String lastname = ln.getText().toString();
         EditText email = findViewById(R.id.email);
         String emailID = email.getText().toString();
         EditText password = findViewById(R.id.password);

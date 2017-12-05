@@ -69,7 +69,26 @@ public class DrawerActivity extends AppCompatActivity
             fragmentTransaction.commit();
             hideLearnerItem();
 
-        } else {
+        } else if(flag.equals("accept")){
+            TutorFragment fragment1 = new TutorFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.frag_frame, fragment1);
+            fragmentTransaction.commit();
+            hideTutorItem();
+            Toast.makeText(getApplicationContext(),"You have accepted the request. The learner will be notified", Toast.LENGTH_LONG).show();
+        }
+        else if(flag.equals("reject")){
+            TutorFragment fragment1 = new TutorFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.frag_frame, fragment1);
+            fragmentTransaction.commit();
+            hideTutorItem();
+            Toast.makeText(getApplicationContext(),"You have rejected the request. The learner will be notified", Toast.LENGTH_LONG).show();
+        }
+
+        else {
             LearnerFragment fragment1 = new LearnerFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
