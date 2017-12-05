@@ -34,6 +34,8 @@ public class TutorListViewAdapter extends BaseAdapter {
         return questions.get(i);
     }
 
+//    public int getItemObjectId(int i) { return questions.get(i).getId(); }
+
     @Override
     public long getItemId(int i) {
         return 0;
@@ -59,7 +61,7 @@ public class TutorListViewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-//        holder.txtViewTitle.setText(title[position]);
+        holder.txtViewTitle.setText(questions.get(position).getDescription());
         holder.txtViewDescription.setText(questions.get(position).getDescription());
 
         return convertView;

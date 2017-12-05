@@ -2,8 +2,10 @@ package com.hci.project.cerebro;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,14 +22,36 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.hci.project.cerebro.LearnerFragment.question;
-
 public class MessageFromLearner extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_from_learner);
+
+        Intent intent = getIntent();
+        Log.i("Question Id", "This is the questionId : " + intent.getStringExtra("question_id"));
+        int question_pos = intent.getIntExtra("questionPos", 0);
+        String question_type = intent.getStringExtra("questionType");
+        SubmitQuestion qn;
+
+        if (question_type.equals("pending")) {
+            if (question_pos <= 0)
+                qn = TutorFragment.pending.get(0);
+            else
+                qn = TutorFragment.pending.get(question_pos);
+        } else {
+            if (question_pos <= 0)
+                qn = TutorFragment.accepted.get(0);
+            else
+                qn = TutorFragment.accepted.get(question_pos);
+        }
+
+        TextView view9 = findViewById(R.id.textView9);
+        TextView view10 = findViewById(R.id.textView10);
+
+        view10.setText(qn.getDescription());
+
 
         Button bttnAccept = (Button) findViewById(R.id.button5);
         Button bttnReject = (Button) findViewById(R.id.button6);
@@ -44,7 +68,7 @@ public class MessageFromLearner extends AppCompatActivity {
 
         SharedPreferences sp = getApplicationContext().getSharedPreferences("MyPref",0);
         String token = sp.getString("Current_User", "defaultvalue");
-        final int user_id = question.id;//sp.getInt("Current_User_Id", 0);
+        final int user_id = sp.getInt("Current_User_Id", 0);
 
         final Map<String, String> map = new HashMap<>();
         map.put("X-Authorization", token);

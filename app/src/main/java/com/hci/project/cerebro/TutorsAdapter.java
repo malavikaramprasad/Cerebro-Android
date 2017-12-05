@@ -15,22 +15,23 @@ import java.util.List;
 
 public class TutorsAdapter extends BaseAdapter {
     Activity context;
-    List<SubmitQuestion> questions;
+    String title[];
+    String description[];
 
-    public TutorsAdapter(Activity context, List<SubmitQuestion> questions) {
-        super();
-        this.context = context;
-        this.questions = questions;
+    public TutorsAdapter(Activity activity, String[] title, String[] description) {
+        this.context = activity;
+        this.title = title;
+        this.description = description;
     }
 
     @Override
     public int getCount() {
-        return questions.size();
+        return title.length;
     }
 
     @Override
     public Object getItem(int i) {
-        return questions.get(i);
+        return null;
     }
 
     @Override
@@ -45,21 +46,21 @@ public class TutorsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TutorListViewAdapter.ViewHolder holder;
+        ViewHolder holder;
         LayoutInflater inflater = context.getLayoutInflater();
 
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.list_item, null);
-            holder = new TutorListViewAdapter.ViewHolder();
+            holder = new ViewHolder();
             holder.txtViewTitle = (TextView) convertView.findViewById(R.id.row_element_name);
             holder.txtViewDescription = (TextView) convertView.findViewById(R.id.row_element_rating);
             convertView.setTag(holder);
         } else {
-            holder = (TutorListViewAdapter.ViewHolder) convertView.getTag();
+            holder = (ViewHolder) convertView.getTag();
         }
 
-//        holder.txtViewTitle.setText(title[position]);
-        holder.txtViewDescription.setText(questions.get(position).getDescription());
+        holder.txtViewTitle.setText(title[position]);
+        holder.txtViewDescription.setText(description[position]);
 
         return convertView;
     }

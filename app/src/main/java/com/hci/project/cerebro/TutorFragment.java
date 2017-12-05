@@ -7,8 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,27 +48,6 @@ public class TutorFragment extends Fragment {
         lv_new = view.findViewById(R.id.newRequests);
         lv_old = view.findViewById(R.id.oldRequests);
 
-        //Accepted Tasks ListView
-        ArrayList<String> ques = new ArrayList<String>();
-        ArrayList<String> uid = new ArrayList<>();
-
-//        ques.add("Request for HCI");
-//        ques.add("Request for HCI");
-//        ques.add("Request for HCI");
-//        ques.add("Request for Android");
-//        ques.add("Request for Android");
-//        ques.add("Request for HCI");
-//        ques.add("Request for Android");
-
-//        String[] questions = ques.toArray(new String[ques.size()]);
-        String[] questions = new String[]{"Request for HCI", "Request for HCI", "Request for HCI", "Request for HCI"};
-        ques.addAll(Arrays.asList(questions) );
-
-//        TutorListViewAdapter adapter = new TutorListViewAdapter(getActivity(), android.R.layout.simple_list_item_1, ques);
-        System.out.println(questions.length);
-//        lv_new.setAdapter(adapter);
-//        lv_old.setAdapter(adapter);
-        // Fetch the requests of current user
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                 .setLenient()
@@ -91,10 +72,49 @@ public class TutorFragment extends Fragment {
                     accepted = requests.accepted;
                     pending = requests.pending;
 
-                    TutorListViewAdapter adapterAccepted = new TutorListViewAdapter(getActivity(), accepted);
-                    TutorListViewAdapter adapterPending = new TutorListViewAdapter(getActivity(), pending);
-                    lv_new.setAdapter(adapterAccepted);
-                    lv_old.setAdapter(adapterPending);
+                    if(accepted.size() == 0) {
+                        TextView textView1 = getActivity().findViewById(R.id.textView2);
+                        textView1.setText("No New Requests");
+                        ListView lv = getActivity().findViewById(R.id.newRequests);
+                        lv.setVisibility(View.GONE);
+                    }
+                    else{
+                        TutorListViewAdapter adapterAccepted = new TutorListViewAdapter(getActivity(), accepted);
+                        lv_new.setAdapter(adapterAccepted);
+                    }
+                    if(pending.size() == 0) {
+                        TextView textView1 = getActivity().findViewById(R.id.textView3);
+                        textView1.setText("No Pending Requests");
+                        ListView lv = getActivity().findViewById(R.id.oldRequests);
+                        lv.setVisibility(View.GONE);
+                    }
+                    else{
+                        TutorListViewAdapter adapterPending = new TutorListViewAdapter(getActivity(), pending);
+                        lv_old.setAdapter(adapterPending);
+                    }
+
+                    //TutorListViewAdapter adapterAccepted = new TutorListViewAdapter(getActivity(), accepted);
+                    //TutorListViewAdapter adapterPending = new TutorListViewAdapter(getActivity(), pending);
+                    //lv_new.setAdapter(adapterAccepted);
+                    //lv_old.setAdapter(adapterPending);
+
+//                    lv_new.setOnItemClickListener();
+                    lv_old.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                            Intent intent = new Intent(getActivity().getApplicationContext(), MessageFromLearner.class);
+                            //sending the position of the tutor selected
+                            //to the tutor profile activity
+                            view.getId();
+//                            view.ge
+                            SubmitQuestion lQuestion = (SubmitQuestion) lv_old.getItemAtPosition(i);
+
+                            intent.putExtra("questionPos", i );
+                            intent.putExtra("questionType", "pending");
+                            startActivity(intent);
+                        }
+                    });
                 }
             }
             public void onFailure(Call<TutorRequests> call, Throwable t){

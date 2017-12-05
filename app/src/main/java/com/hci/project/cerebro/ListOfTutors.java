@@ -19,6 +19,7 @@ public class ListOfTutors extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//            TutorsAdapter adapter1 = new
             ArrayList<String> names = new ArrayList<>();
             ArrayList<String> ratings = new ArrayList<>();
 
@@ -34,7 +35,7 @@ public class ListOfTutors extends AppCompatActivity {
 
                     String[] names_list_dist = names.toArray(new String[userList.size()]);
                     String[] rating_list_dist = ratings.toArray(new String[userList.size()]);
-//                    adapter1 = new TutorListViewAdapter(ListOfTutors.this, names_list_dist, rating_list_dist);
+                    TutorsAdapter adapter1 = new TutorsAdapter(ListOfTutors.this, names_list_dist, rating_list_dist);
                     lv.setAdapter(adapter1);
                     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -60,7 +61,7 @@ public class ListOfTutors extends AppCompatActivity {
                     }
                     String[] names_list_rate = names.toArray(new String[userList.size()]);
                     String[] rating_list_rate = ratings.toArray(new String[userList.size()]);
-                    adapter2 = new TutorListViewAdapter(ListOfTutors.this, names_list_rate, rating_list_rate);
+                    TutorsAdapter adapter2 = new TutorsAdapter(ListOfTutors.this, names_list_rate, rating_list_rate);
                     lv.setAdapter(adapter2);
                     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -86,7 +87,7 @@ public class ListOfTutors extends AppCompatActivity {
                     }
                     String[] names_list_time = names.toArray(new String[userList.size()]);
                     String[] rating_list_time = ratings.toArray(new String[userList.size()]);
-                    adapter3 = new TutorListViewAdapter(ListOfTutors.this, names_list_time, rating_list_time);
+                    TutorsAdapter adapter3 = new TutorsAdapter(ListOfTutors.this, names_list_time, rating_list_time);
                     lv.setAdapter(adapter3);
                     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -146,7 +147,7 @@ public class ListOfTutors extends AppCompatActivity {
         String[] rating_list = ratings.toArray(new String[userList.size()]);
 //        ArrayAdapter adapter= new ArrayAdapter<String>(this, R.layout.list_item, R.id.row_element_name, getResources().getStringArray(R.array.Tutors));
 //        ArrayAdapter adapter= new ArrayAdapter<User>(this, R.layout.activity_list_of_tutors, R.id.listview, userList);
-        adapter = new TutorListViewAdapter(this, names_list, rating_list);
+        TutorsAdapter adapter = new TutorsAdapter(this, names_list, rating_list);
         lv.setAdapter(adapter);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
