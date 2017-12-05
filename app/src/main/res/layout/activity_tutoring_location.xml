@@ -41,8 +41,8 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:background="@drawable/button_style"
-        android:text="Confirm Location \u25b6"
         android:textColor="@android:color/white"
+        android:text="Confirm Location \u25b6"
         android:textStyle="bold" />
 
 </LinearLayout>
