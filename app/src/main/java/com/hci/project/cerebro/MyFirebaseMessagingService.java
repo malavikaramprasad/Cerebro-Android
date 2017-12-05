@@ -54,7 +54,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // message, here is where that should be initiated. See sendNotification method below.
     }
     private void createNotification( String messageBody, String obj) {
-        Intent intent = new Intent( this , DrawerActivity. class );
+        Intent intent = new Intent( this , MessageFromLearner. class );
         Bundle bundle = new Bundle();
         bundle.putString("Question", obj);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -15,9 +15,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -112,14 +116,26 @@ public class TutorProfilePage extends AppCompatActivity {
                     SharedPreferences settings = getApplication().getApplicationContext().getSharedPreferences("MyPref", 0);
                     String usertoken = settings.getString("Current_User", "defaultvalue");
                     int userId = user.id; // Need to fetch later
+
+                    Calendar calendar = Calendar.getInstance();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat(
+                            "EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
+                    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+//                    String start_time= dateFormat.format(calendar.getTime());
+//                    String end_time = dateFormat.format(calendar.getTime());
+
+//                    Time start_time = new java.sql.Time( cal.getTime().getTime() );
+                    //Time end_time = new java.sql.Time( cal.getTime().getTime() );
+//                    System.out.println(start_time);
+//                    System.out.println(start_time);
                     Time start_time = new Time(503000837);
                     Time end_time = new Time(233300077);
 
                     Map<String, String> map = new HashMap<>();
                     map.put("X-Authorization", usertoken);
                     RequestTutorAPI reqtutor_api = retrofit.create(RequestTutorAPI.class);
-                    RequestTutor requestTutor = new RequestTutor(userId, start_time, end_time);
-                    reqtutor_api.reqTutor(map, userId, requestTutor).enqueue(new Callback<SubmitQuestion>() {
+                    //RequestTutor requestTutor = new RequestTutor(userId, start_time, end_time);
+                    reqtutor_api.reqTutor(map, 12, userId, start_time, end_time ).enqueue(new Callback<SubmitQuestion>() {
                         @Override
                         public void onResponse(Call<SubmitQuestion> call, Response<SubmitQuestion> response) {
                             if (response.isSuccessful()) {

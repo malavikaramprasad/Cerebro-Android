@@ -67,7 +67,7 @@ public class DrawerActivity extends AppCompatActivity
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.add(R.id.frag_frame, fragment1);
             fragmentTransaction.commit();
-            hideTutorItem();
+            hideLearnerItem();
 
         } else {
             LearnerFragment fragment1 = new LearnerFragment();
