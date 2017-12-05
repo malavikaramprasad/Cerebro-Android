@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/distance"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/ic_place_black_48dp"
         android:title="@string/title_home" />
 
     <item
         android:id="@+id/rating"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/ic_star_48pt_3x"
         android:title="@string/title_dashboard" />
 
     <item
         android:id="@+id/availability"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_query_builder_black_48dp"
         android:title="@string/title_notifications" />
 
 </menu>
