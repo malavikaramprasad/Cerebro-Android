@@ -34,7 +34,7 @@ public class TutorProfilePage extends AppCompatActivity {
         int position=getIntent().getIntExtra("key_position",0);
         ArrayList<User> userList = LearnerFragment.userList;
         System.out.println(userList.get(position).email);
-        User user = userList.get(position);
+        final User user = userList.get(position);
 
 
         tutor_name = findViewById(R.id.tutor_name);
@@ -74,7 +74,7 @@ public class TutorProfilePage extends AppCompatActivity {
 
                 SharedPreferences settings = getApplication().getApplicationContext().getSharedPreferences("MyPref",0);
                 String usertoken = settings.getString("Current_User", "defaultvalue");
-                int userId = 2; // Need to fetch later
+                int userId = user.id; // Need to fetch later
                 Time st = new Time(503000);
                 Time et = new Time(2333000);
 

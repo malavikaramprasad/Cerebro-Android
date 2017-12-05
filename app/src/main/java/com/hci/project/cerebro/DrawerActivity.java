@@ -59,14 +59,22 @@ public class DrawerActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         // Start - Defaulting the application with Learner fragment -
-
-
-        LearnerFragment fragment1 = new LearnerFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frag_frame, fragment1);
-        fragmentTransaction.commit();
-        hideLearnerItem();
+        String flag = getIntent().getStringExtra("RequestDecision");
+        if(!(flag == "Y")) {
+            LearnerFragment fragment1 = new LearnerFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.frag_frame, fragment1);
+            fragmentTransaction.commit();
+            hideLearnerItem();
+        } else {
+            TutorFragment fragment1 = new TutorFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.frag_frame, fragment1);
+            fragmentTransaction.commit();
+            hideTutorItem();
+        }
         // End
 
         //fetch device token
