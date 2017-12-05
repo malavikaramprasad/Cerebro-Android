@@ -18,7 +18,7 @@
             android:title="Settings" />
         <item
             android:id="@+id/nav_rating"
-            android:icon="@drawable/ic_settings_black_48dp"
+            android:icon="@drawable/ic_star_48pt_3x"
             android:title="Rate Tutor" />
     </group>
 
