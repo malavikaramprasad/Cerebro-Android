@@ -7,11 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +41,31 @@ public class TutorFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_tutor, container, false);
+
+        lv_new = view.findViewById(R.id.newRequests);
+        lv_old = view.findViewById(R.id.oldRequests);
+
+        //Accepted Tasks ListView
+        ArrayList<String> ques = new ArrayList<String>();
+        ArrayList<String> uid = new ArrayList<>();
+
+//        ques.add("Request for HCI");
+//        ques.add("Request for HCI");
+//        ques.add("Request for HCI");
+//        ques.add("Request for Android");
+//        ques.add("Request for Android");
+//        ques.add("Request for HCI");
+//        ques.add("Request for Android");
+
+//        String[] questions = ques.toArray(new String[ques.size()]);
+        String[] questions = new String[]{"Request for HCI", "Request for HCI", "Request for HCI", "Request for HCI"};
+        ques.addAll(Arrays.asList(questions) );
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, ques);
+        System.out.println(questions.length);
+        lv_new.setAdapter(adapter);
+        lv_old.setAdapter(adapter);
         // Fetch the requests of current user
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
@@ -70,7 +98,7 @@ public class TutorFragment extends Fragment {
 
         //End
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tutor, container, false);
+        return view;
 
     }
 
@@ -79,24 +107,6 @@ public class TutorFragment extends Fragment {
 
         // Indicates the selected item has been checked
 
-
-//        lv_new=getActivity().findViewById(R.id.newRequests);
-//        lv_old=getActivity().findViewById(R.id.oldRequests);
-//
-//        lv_new.setItemChecked(pos, true);
-//        lv_old.setItemChecked(pos, true);
-//
-//        //Accepted Tasks ListView
-//        ArrayList<String> ques = new ArrayList<>();
-//        ArrayList<String> uid = new ArrayList<>();
-//        String[] questions, user_ids;
-//        for (int i=0; i<accepted.size();i++){
-//            ques.add(accepted.get(i).description);
-//            uid.add(String.valueOf(accepted.get(i).id));
-//        }
-//        questions = ques.toArray(new String[ques.size()]);
-//        user_ids = uid.toArray(new String[uid.size()]);
-
         Intent intent= new Intent(getContext(), MessageFromLearner.class);
         startActivity(intent);
 
@@ -104,5 +114,7 @@ public class TutorFragment extends Fragment {
         // Inform the QuoteViewerActivity that the item in position pos has been selected
 
     }
+
+
 
 }

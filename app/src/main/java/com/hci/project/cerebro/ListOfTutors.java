@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -22,19 +21,19 @@ public class ListOfTutors extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             ArrayList<String> names = new ArrayList<>();
             ArrayList<String> ratings = new ArrayList<>();
-            for (int i = 0; i < userList.size(); i++) {
-                names.add(userList.get(i).first_name + " " + userList.get(i).last_name);
-                ratings.add(String.valueOf(userList.get(i).rating));
-            }
 
-            String[] names_list = names.toArray(new String[userList.size()]);
-            String[] rating_list = ratings.toArray(new String[userList.size()]);
-            switch (item.getItemId()) {
+                        switch (item.getItemId()) {
                 case R.id.distance:
                     //sort tutor list based on distance and store it in tutor array
                     ListView lv = (ListView) findViewById(R.id.listview);
 //                    ArrayAdapter adapter= new ArrayAdapter<String>(getApplicationContext(),R.layout.activity_list_of_tutors,R.id.listview,  getResources().getStringArray(R.array.Tutors));
-                    adapter1 = new TutorListViewAdapter(ListOfTutors.this, names_list, rating_list);
+                    for (int i = 0; i < userList.size(); i++) {
+                        names.add(userList.get(i).first_name + " " + userList.get(i).last_name);
+                        ratings.add(String.valueOf(0.1*(i+1)) + " mi away");
+                    }
+                    String[] names_list_dist = names.toArray(new String[userList.size()]);
+                    String[] rating_list_dist = ratings.toArray(new String[userList.size()]);
+                    adapter1 = new TutorListViewAdapter(ListOfTutors.this, names_list_dist, rating_list_dist);
                     lv.setAdapter(adapter1);
                     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -54,18 +53,23 @@ public class ListOfTutors extends AppCompatActivity {
 
                     lv = (ListView) findViewById(R.id.listview);
 //                    ArrayAdapter adapter2= new ArrayAdapter<String>(getApplicationContext(),R.layout.activity_list_of_tutors,R.id.listview,  getResources().getStringArray(R.array.Tutors));
-                    adapter2 = new TutorListViewAdapter(ListOfTutors.this, names_list, rating_list);
+                    for (int i = 0; i < userList.size(); i++) {
+                        names.add(userList.get(i).first_name + " " + userList.get(i).last_name);
+                        ratings.add(String.valueOf(userList.get(i).rating));
+                    }
+                    String[] names_list_rate = names.toArray(new String[userList.size()]);
+                    String[] rating_list_rate = ratings.toArray(new String[userList.size()]);
+                    adapter2 = new TutorListViewAdapter(ListOfTutors.this, names_list_rate, rating_list_rate);
                     lv.setAdapter(adapter2);
                     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                            Intent intent = new Intent(getApplicationContext(), TutorProfileActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), TutorProfilePage.class);
 
                             //sending the position of the tutor selected
                             //to the tutor profile activity
                             intent.putExtra("key_position", i);
-                            intent.putExtra("value", userList);
                             startActivity(intent);
                         }
                     });
@@ -75,17 +79,22 @@ public class ListOfTutors extends AppCompatActivity {
 
                     lv = (ListView) findViewById(R.id.listview);
 //                    ArrayAdapter adapter3= new ArrayAdapter<String>(getApplicationContext(),R.layout.activity_list_of_tutors,R.id.listview, getResources().getStringArray(R.array.Tutors));
-                    adapter3 = new TutorListViewAdapter(ListOfTutors.this, names_list, rating_list);
+                    for (int i = userList.size()-1; i > -1; i--) {
+                        names.add(userList.get(i).first_name + " " + userList.get(i).last_name);
+                        ratings.add("In " + String.valueOf(2*(i+1)) + " hours");
+                    }
+                    String[] names_list_time = names.toArray(new String[userList.size()]);
+                    String[] rating_list_time = ratings.toArray(new String[userList.size()]);
+                    adapter3 = new TutorListViewAdapter(ListOfTutors.this, names_list_time, rating_list_time);
                     lv.setAdapter(adapter3);
                     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                            Intent intent = new Intent(getApplicationContext(), TutorProfileActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), TutorProfilePage.class);
                             //sending the position of the tutor selected
                             //to the tutor profile activity
                             intent.putExtra("key_position", i);
-                            intent.putExtra("value", userList);
                             startActivity(intent);
                         }
                     });
@@ -129,7 +138,7 @@ public class ListOfTutors extends AppCompatActivity {
         ArrayList<String> ratings = new ArrayList<>();
         for (int i = 0; i < userList.size(); i++) {
             names.add(userList.get(i).first_name + " " + userList.get(i).last_name);
-            ratings.add(String.valueOf(userList.get(i).rating));
+            ratings.add(String.valueOf(0.1*(i+1)) + " mi away");
         }
 
         String[] names_list = names.toArray(new String[userList.size()]);
