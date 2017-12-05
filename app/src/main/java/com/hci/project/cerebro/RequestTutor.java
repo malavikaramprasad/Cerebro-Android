@@ -1,6 +1,7 @@
 package com.hci.project.cerebro;
 
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by Malavika Ramprasad on 12/4/2017.
@@ -8,22 +9,22 @@ import java.sql.Time;
 
 public class RequestTutor {
     int tutor_id;
-    Time start_time;
-    Time end_time;
+    Date start_time;
+    Date end_time;
 
-    public void setStart_time(Time start_time) {
+    public void setStart_time(Date start_time) {
         this.start_time = start_time;
     }
 
-    public void setEnd_time(Time end_time) {
+    public void setEnd_time(Date end_time) {
         this.end_time = end_time;
     }
 
-    public Time getStart_time() {
+    public Date getStart_time() {
         return start_time;
     }
 
-    public Time getEnd_time() {
+    public Date getEnd_time() {
         return end_time;
     }
 
@@ -35,7 +36,7 @@ public class RequestTutor {
         return this.tutor_id = tutor_id;
     }
 
-    public RequestTutor(int tutor_id, Time start_time, Time end_time){
+    public RequestTutor(int tutor_id, Date start_time, Date end_time){
         this.end_time = end_time;
         this.tutor_id = tutor_id;
         this.start_time = start_time;

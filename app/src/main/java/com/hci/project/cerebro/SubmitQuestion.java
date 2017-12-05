@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by Malavika Ramprasad on 11/29/2017.
@@ -27,10 +28,10 @@ public class SubmitQuestion {
     Boolean tutor_accepted;
     @SerializedName("start_time")
     @Expose
-    Time start_time;
+    Date start_time;
     @SerializedName("end_time")
     @Expose
-    Time end_time;
+    Date end_time;
 
     public int getTag_id() {
         return tag_id;
@@ -60,11 +61,11 @@ public class SubmitQuestion {
 
     public void setQuestion_id(int id) { this.id = id; }
 
-    public Time getEnd_time() {
+    public Date getEnd_time() {
         return end_time;
     }
 
-    public Time getStart_time() {
+    public Date getStart_time() {
         return start_time;
     }
 

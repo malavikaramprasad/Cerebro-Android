@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.sql.Time;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,8 +19,8 @@ public class User implements Parcelable {
     float rating;
     float x_coordinate;
     float y_coordinate;
-    Time start_time;
-    Time end_time;
+    Date start_time;
+    Date end_time;
     List<BookedSlot> booked_slots;
 
     protected User(Parcel in) {
@@ -88,11 +89,11 @@ public class User implements Parcelable {
         return y_coordinate;
     }
 
-    public Time getEnd_time() {
+    public Date getEnd_time() {
         return end_time;
     }
 
-    public Time getStart_time() {
+    public Date getStart_time() {
         return start_time;
     }
 
