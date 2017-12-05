@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ShareActionProvider;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.google.gson.Gson;
@@ -58,6 +59,8 @@ public class TutorProfileActivity extends AppCompatActivity {
             skip.setVisibility(View.GONE);
             Button location = findViewById(R.id.go_location);
             location.setVisibility(View.GONE);
+            TextView tv = findViewById(R.id.textView6);
+            tv.setText("Update your skills");
         }}
         //SKILLS
         skill1 = findViewById(R.id.skill1);

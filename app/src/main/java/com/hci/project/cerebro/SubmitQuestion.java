@@ -84,6 +84,14 @@ public class SubmitQuestion {
         return id;
     }
 
+    public Boolean getTutor_accepted() {
+        return tutor_accepted;
+    }
+
+    public void setTutor_accepted(Boolean tutor_accepted) {
+        this.tutor_accepted = tutor_accepted;
+    }
+
     public SubmitQuestion(int tag_id, String description, int learner_id, int id) {
         this.learner_id = learner_id;
         this.tag_id = tag_id;

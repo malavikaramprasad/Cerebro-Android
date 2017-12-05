@@ -92,6 +92,8 @@ public class TutoringLocationActivity extends FragmentActivity implements OnMapR
         else
         {
             location.setText("UPDATE LOCATION");
+            TextView tc = findViewById(R.id.location_prompt);
+            tc.setText("Update your location");
         }}
     }
 
