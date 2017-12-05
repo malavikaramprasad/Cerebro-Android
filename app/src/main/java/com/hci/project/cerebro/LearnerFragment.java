@@ -36,6 +36,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LearnerFragment extends Fragment implements View.OnClickListener {
 
     public static ArrayList<User> userList;
+    public static SubmitQuestion question;
+    public static SubmitQuestionResponse qResponse;
 
     public LearnerFragment() {
         // Required empty public constructor
@@ -185,24 +187,27 @@ public class LearnerFragment extends Fragment implements View.OnClickListener {
 
             SubmitQuestionAPI submitQn_api = retrofit.create(SubmitQuestionAPI.class);
             SubmitQuestion submitQuestion = new SubmitQuestion(tag_id, description, learner_id, 0);
-            submitQn_api.addQuestion(map, submitQuestion).enqueue(new Callback<List<User>>() {
+            submitQn_api.addQuestion(map, submitQuestion).enqueue(new Callback<SubmitQuestionResponse>() {
                 @Override
-                public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                public void onResponse(Call<SubmitQuestionResponse> call, Response<SubmitQuestionResponse> response) {
 
                     if (response.isSuccessful()) {
-                        userList = (ArrayList<User>) response.body();
+                        qResponse = (SubmitQuestionResponse) response.body();
+                        question = qResponse.getQuestion();
+                        userList = (ArrayList<User>) qResponse.getTutors();
+                        //userList = (ArrayList<User>) response.body();
                         System.out.println("Response Body : :: : " + userList);
                         System.out.println("Token : :: : " + response.body());
                         Intent intent = new Intent(getActivity(), ListOfTutors.class);
 //                        intent.putExtra("userList", userList);
-                        System.out.println(userList.get(0).email);
+                        //System.out.println(userList.get(0).email);
                         //intent.putParcelableArrayListExtra("userList", (ArrayList<? extends Parcelable>) userList);
                         startActivity(intent);
                     }
                 }
 
                 @Override
-                public void onFailure(Call<List<User>> call, Throwable t) {
+                public void onFailure(Call<SubmitQuestionResponse> call, Throwable t) {
                     t.printStackTrace();
                 }
             });

@@ -258,6 +258,7 @@ public class DrawerActivity extends AppCompatActivity
         int id = item.getItemId();
         LearnerFragment fragment1 = new LearnerFragment();
         TutorFragment fragment2 = new TutorFragment();
+        LearnerDashboard fragment3 = new LearnerDashboard();
         if (id == R.id.nav_learner) {
             // Handle the camera action
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -273,7 +274,12 @@ public class DrawerActivity extends AppCompatActivity
             hideTutorItem();
             fragmentTransaction.commit();
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_rating) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            //fragmentTransaction.replace(R.id.frag_frame, fragment3);
+            //hideTutorItem();
+            fragmentTransaction.commit();
 
         } else if (id == R.id.nav_manage) {
             Intent intent = new Intent(DrawerActivity.this,Settings.class);

@@ -20,6 +20,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.hci.project.cerebro.LearnerFragment.question;
+
 public class MessageFromLearner extends AppCompatActivity {
 
     @Override
@@ -42,7 +44,7 @@ public class MessageFromLearner extends AppCompatActivity {
 
         SharedPreferences sp = getApplicationContext().getSharedPreferences("MyPref",0);
         String token = sp.getString("Current_User", "defaultvalue");
-        final int user_id = sp.getInt("Current_User_Id", 0);
+        final int user_id = question.id;//sp.getInt("Current_User_Id", 0);
 
         final Map<String, String> map = new HashMap<>();
         map.put("X-Authorization", token);

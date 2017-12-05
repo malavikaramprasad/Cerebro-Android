@@ -31,6 +31,7 @@ public class ListOfTutors extends AppCompatActivity {
                         names.add(userList.get(i).first_name + " " + userList.get(i).last_name);
                         ratings.add(String.valueOf(0.1*(i+1)) + " mi away");
                     }
+
                     String[] names_list_dist = names.toArray(new String[userList.size()]);
                     String[] rating_list_dist = ratings.toArray(new String[userList.size()]);
                     adapter1 = new TutorListViewAdapter(ListOfTutors.this, names_list_dist, rating_list_dist);

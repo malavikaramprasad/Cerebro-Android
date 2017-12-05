@@ -29,6 +29,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.hci.project.cerebro.LearnerFragment.question;
+
 public class TutorProfilePage extends AppCompatActivity {
     Button request, slot1, slot2, slot3;
     RatingBar rating;
@@ -115,7 +117,9 @@ public class TutorProfilePage extends AppCompatActivity {
 
                     SharedPreferences settings = getApplication().getApplicationContext().getSharedPreferences("MyPref", 0);
                     String usertoken = settings.getString("Current_User", "defaultvalue");
-                    int userId = user.id; // Need to fetch later
+                    int userId = user.id;
+                    int qId = question.id;
+                    // Need to fetch later
 
                     Calendar calendar = Calendar.getInstance();
                     SimpleDateFormat dateFormat = new SimpleDateFormat(
@@ -135,7 +139,7 @@ public class TutorProfilePage extends AppCompatActivity {
                     map.put("X-Authorization", usertoken);
                     RequestTutorAPI reqtutor_api = retrofit.create(RequestTutorAPI.class);
                     //RequestTutor requestTutor = new RequestTutor(userId, start_time, end_time);
-                    reqtutor_api.reqTutor(map, 12, userId, start_time, end_time ).enqueue(new Callback<SubmitQuestion>() {
+                    reqtutor_api.reqTutor(map, qId, userId, start_time, end_time ).enqueue(new Callback<SubmitQuestion>() {
                         @Override
                         public void onResponse(Call<SubmitQuestion> call, Response<SubmitQuestion> response) {
                             if (response.isSuccessful()) {

@@ -17,5 +17,5 @@ public interface SubmitQuestionAPI {
     //@Headers("X-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoidnBhbmRpMkB1aWMuZWR1IiwiZXhwIjoxNTEyMjQ1NzY1fQ.pp_w7vKTcA6OTHDmifHAIXc9QCrt7O9GzwO66JhynRQ")
     @POST("questions")
         //Call<UserToken> addPost(@Body @Root("user") CreateUser userobj);
-    Call<List<User>> addQuestion(@HeaderMap Map<String, String> headers, @Body @Root("questions") SubmitQuestion quesObj);
+    Call<SubmitQuestionResponse> addQuestion(@HeaderMap Map<String, String> headers, @Body @Root("questions") SubmitQuestion quesObj);
 }
