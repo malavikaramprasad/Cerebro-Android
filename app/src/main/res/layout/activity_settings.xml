@@ -50,8 +50,8 @@
         android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@drawable/button_style"
         android:text="Change Tutoring Location \u25b6"
+        android:background="@drawable/button_style"
         android:textColor="@android:color/white"
         android:textStyle="bold" />
 

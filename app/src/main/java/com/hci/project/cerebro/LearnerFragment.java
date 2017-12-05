@@ -129,9 +129,10 @@ public class LearnerFragment extends Fragment implements View.OnClickListener {
                     System.out.println("Response SKILLS :::" + response.body());
                     List<Skill> arrayList = response.body();
                     int count = arrayList.size();
-                    int i = 0;
-                    final ArrayList<SkillNameAdapter> list = new ArrayList<SkillNameAdapter>();
-                    while (i < count) {
+                    System.out.println(count);
+                    int i;
+                    ArrayList<SkillNameAdapter> list = new ArrayList<SkillNameAdapter>();
+                    for (i=0; i<count-1; i++){
                         skillNames[i] = arrayList.get(i).getName();
                         list.add(new SkillNameAdapter(arrayList.get(i).getName()));
                         skillID[i] = arrayList.get(i).getId();

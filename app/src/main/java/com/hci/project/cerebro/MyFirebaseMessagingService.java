@@ -3,14 +3,11 @@ package com.hci.project.cerebro;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -54,7 +51,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // message, here is where that should be initiated. See sendNotification method below.
     }
     private void createNotification( String messageBody, String obj) {
-        Intent intent = new Intent( this , MessageFromLearner. class );
+        Intent intent = new Intent( this , MessageFromLearner.class );
         Bundle bundle = new Bundle();
         bundle.putString("Question", obj);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

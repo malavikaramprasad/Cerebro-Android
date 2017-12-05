@@ -30,7 +30,10 @@ public class ListOfTutors extends AppCompatActivity {
 //                    ArrayAdapter adapter= new ArrayAdapter<String>(getApplicationContext(),R.layout.activity_list_of_tutors,R.id.listview,  getResources().getStringArray(R.array.Tutors));
                     for (int i = 0; i < userList.size(); i++) {
                         names.add(userList.get(i).first_name + " " + userList.get(i).last_name);
-                        ratings.add(String.valueOf(0.1*(i+1)) + " mi away");
+                        double j = 0.1*(i+1);
+                        double k = Math.round(j*100.0)/100.0;
+                        System.out.println(k);
+                        ratings.add(String.valueOf(k) + " mi away");
                     }
 
                     String[] names_list_dist = names.toArray(new String[userList.size()]);
@@ -140,7 +143,9 @@ public class ListOfTutors extends AppCompatActivity {
         ArrayList<String> ratings = new ArrayList<>();
         for (int i = 0; i < userList.size(); i++) {
             names.add(userList.get(i).first_name + " " + userList.get(i).last_name);
-            ratings.add(String.valueOf(0.1*(i+1)) + " mi away");
+            double j = 0.1*(i+1);
+            double k = Math.round(j*100.0)/100.0;
+            ratings.add(String.valueOf(k) + " mi away");
         }
 
         String[] names_list = names.toArray(new String[userList.size()]);
