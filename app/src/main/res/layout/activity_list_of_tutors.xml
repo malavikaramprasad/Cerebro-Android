@@ -33,11 +33,13 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="359dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="13dp"
-        android:text="List Of Tutors:"
+        android:text="These people can help you"
+        android:textAllCaps="true"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="16sp"
         android:textStyle="bold"

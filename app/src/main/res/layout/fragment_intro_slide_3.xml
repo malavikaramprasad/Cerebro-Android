@@ -37,4 +37,11 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_marginTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:src="@mipmap/tab_3" />
+
 </LinearLayout>

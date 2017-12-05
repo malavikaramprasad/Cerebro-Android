@@ -25,7 +25,7 @@ import retrofit2.Retrofit;
 public class TutorProfilePage extends AppCompatActivity {
     Button request, slot1, slot2, slot3;
     RatingBar rating;
-    TextView skill_tv, tutor_name;
+    TextView skill_tv, tutor_name, skill_chosen;
     ListView skill;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,6 @@ public class TutorProfilePage extends AppCompatActivity {
         ArrayList<User> userList = LearnerFragment.userList;
         System.out.println(userList.get(position).email);
         final User user = userList.get(position);
-
 
         tutor_name = findViewById(R.id.tutor_name);
         rating = findViewById(R.id.rating);
@@ -47,7 +46,32 @@ public class TutorProfilePage extends AppCompatActivity {
 
         tutor_name.setText(user.first_name);
         rating.setRating(user.rating);
-        skill_tv.setText("I can help you with your question on " + LearnerFragment.asked_topic + " during one of the following time slots");
+        skill_tv.setText("I can help you with your question on " + LearnerFragment.asked_topic + " at one of these times");
+        skill_chosen = findViewById(R.id.time_chosen);
+
+        //on selecting slot 1
+        slot1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                skill_chosen.setText("I'd like to request you to help me from:\n" + slot1.getText());
+            }
+        });
+
+        //on selecting slot 2
+        slot2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                skill_chosen.setText("I'd like to request you to help me from:\n" + slot2.getText());
+            }
+        });
+
+        //on selecting slot 3
+        slot3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                skill_chosen.setText("I'd like to request you to help me from:\n" + slot3.getText());
+            }
+        });
 
         //retrieve the data of the specific tutor at that position
         //and populate the tutorprofilepage
